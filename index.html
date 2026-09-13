@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>STACK OVERFLOW — The Cyber Card Duel</title>
 <style>
   :root {
     --bg: #070B14;
-    --panel-bg: rgba(15, 23, 42, 0.78);
+    --panel-bg: rgba(15, 23, 42, 0.85);
     --panel-border: #1E293B;
     --text: #F8FAFC;
     --text-muted: #94A3B8;
@@ -17,96 +17,100 @@
     --special-purple: #A855F7;
     --accent-blue: #38BDF8;
     --gold: #F59E0B;
-    --card-w: 124px;
-    --card-h: 180px;
+    --card-w: clamp(96px, 10vw, 118px);
+    --card-h: clamp(144px, 15vw, 172px);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
-  body {
-    background: radial-gradient(circle at 50% 15%, #0F172A 0%, var(--bg) 75%);
+  
+  html, body {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+    background: radial-gradient(circle at 50% 10%, #0F172A 0%, var(--bg) 80%);
     color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow-x: hidden;
   }
 
-  /* Top Navigation Header */
+  /* Navigation Header */
   header {
-    background: rgba(7, 11, 20, 0.94);
+    background: rgba(7, 11, 20, 0.96);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--panel-border);
-    padding: 8px 20px;
+    padding: 8px 14px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: sticky;
     top: 0;
     z-index: 100;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
   }
-  .brand { display: flex; align-items: center; gap: 8px; font-weight: 900; font-size: 1.15rem; letter-spacing: 1px; }
+  .brand { display: flex; align-items: center; gap: 6px; font-weight: 900; font-size: 1.1rem; letter-spacing: 0.5px; }
   .brand span.code { color: var(--code-green); }
   .brand span.bug { color: var(--glitch-red); }
-  .btn-group { display: flex; gap: 8px; align-items: center; }
+  .btn-group { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
   .btn {
     background: #1E293B;
     color: var(--text);
     border: 1px solid #334155;
-    padding: 6px 13px;
+    padding: 5px 11px;
     border-radius: 6px;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.15s ease;
+    white-space: nowrap;
   }
-  .btn:hover { background: #334155; border-color: var(--accent-blue); transform: translateY(-1px); }
+  .btn:hover { background: #334155; border-color: var(--accent-blue); }
   .btn-primary { background: #2563EB; border-color: #3B82F6; }
   .btn-primary:hover { background: #1D4ED8; }
   .btn-danger { background: #DC2626; border-color: #EF4444; color: #FFF; }
   .btn-danger:hover { background: #B91C1C; }
   .btn-gold { background: #D97706; border-color: #F59E0B; color: #FFF; }
   .btn-gold:hover { background: #B45309; }
-  .toggle-audio { background: #0F172A; border-color: #475569; font-size: 0.82rem; padding: 5px 10px; }
+  .toggle-audio { background: #0F172A; border-color: #475569; font-size: 0.78rem; padding: 5px 9px; }
 
-  /* DEDICATED AI CHAT & STATUS CAPSULE (THE TOP PILL) */
+  /* Top AI Dialogue Capsule */
   .ai-pill-bar {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 8px 16px 0 16px;
+    padding: 6px 12px 0 12px;
     width: 100%;
-    max-width: 1460px;
-    margin: 0 auto;
   }
   .ai-chat-pill {
-    background: rgba(15, 23, 42, 0.85);
+    background: rgba(15, 23, 42, 0.9);
     border: 1px solid #334155;
-    border-radius: 50px;
-    padding: 7px 20px;
+    border-radius: 40px;
+    padding: 6px 16px;
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-size: 0.84rem;
+    gap: 10px;
+    font-size: 0.8rem;
     color: #E2E8F0;
-    max-width: 960px;
+    max-width: 980px;
     width: 100%;
     box-shadow: 0 4px 14px rgba(0,0,0,0.5);
-    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition: all 0.25s ease;
   }
   .status-dot {
-    width: 10px;
-    height: 10px;
+    width: 9px;
+    height: 9px;
     border-radius: 50%;
     background: #06B6D4;
     box-shadow: 0 0 8px #06B6D4;
     flex-shrink: 0;
-    transition: all 0.3s;
   }
   .ai-pill-label {
     font-size: 0.72rem;
     font-weight: 800;
-    letter-spacing: 0.8px;
+    letter-spacing: 0.6px;
     text-transform: uppercase;
     color: #38BDF8;
     white-space: nowrap;
@@ -116,279 +120,284 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 0.83rem;
+    font-size: 0.8rem;
   }
 
-  /* Glowing attention states for the Pill */
+  /* Glow States */
   .ai-chat-pill.glow-attention {
     border-color: #EF4444;
-    background: rgba(45, 15, 25, 0.92);
-    box-shadow: 0 0 24px rgba(239, 68, 68, 0.65), inset 0 0 12px rgba(239, 68, 68, 0.25);
+    background: rgba(45, 15, 25, 0.95);
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
     animation: pillPulseRed 1.2s infinite alternate;
   }
-  .ai-chat-pill.glow-attention .status-dot {
-    background: #EF4444;
-    box-shadow: 0 0 12px #EF4444;
-  }
-  .ai-chat-pill.glow-attention .ai-pill-label {
-    color: #F87171;
-  }
+  .ai-chat-pill.glow-attention .status-dot { background: #EF4444; box-shadow: 0 0 10px #EF4444; }
+  .ai-chat-pill.glow-attention .ai-pill-label { color: #F87171; }
 
   .ai-chat-pill.glow-thinking {
     border-color: #F59E0B;
-    background: rgba(30, 25, 15, 0.9);
-    box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+    background: rgba(30, 25, 15, 0.92);
+    box-shadow: 0 0 18px rgba(245, 158, 11, 0.45);
     animation: pillPulseAmber 1.4s infinite alternate;
   }
-  .ai-chat-pill.glow-thinking .status-dot {
-    background: #F59E0B;
-    box-shadow: 0 0 10px #F59E0B;
-  }
-  .ai-chat-pill.glow-thinking .ai-pill-label {
-    color: #FBBF24;
-  }
+  .ai-chat-pill.glow-thinking .status-dot { background: #F59E0B; box-shadow: 0 0 10px #F59E0B; }
+  .ai-chat-pill.glow-thinking .ai-pill-label { color: #FBBF24; }
 
   .ai-chat-pill.glow-action {
     border-color: #38BDF8;
-    background: rgba(15, 30, 45, 0.9);
-    box-shadow: 0 0 20px rgba(56, 189, 248, 0.45);
-  }
-  .ai-chat-pill.glow-action .status-dot {
-    background: #38BDF8;
-    box-shadow: 0 0 10px #38BDF8;
+    box-shadow: 0 0 16px rgba(56, 189, 248, 0.35);
   }
 
   @keyframes pillPulseRed {
-    0% { transform: scale(1); box-shadow: 0 0 16px rgba(239, 68, 68, 0.4); }
-    100% { transform: scale(1.015); box-shadow: 0 0 28px rgba(239, 68, 68, 0.85); }
+    0% { transform: scale(1); }
+    100% { transform: scale(1.01); }
   }
   @keyframes pillPulseAmber {
-    0% { transform: scale(1); box-shadow: 0 0 12px rgba(245, 158, 11, 0.3); }
-    100% { transform: scale(1.01); box-shadow: 0 0 22px rgba(245, 158, 11, 0.65); }
+    0% { transform: scale(1); }
+    100% { transform: scale(1.008); }
   }
 
-  /* Main Grid */
+  /* Responsive Grid Battlefield */
   main {
     flex: 1;
     display: grid;
-    grid-template-columns: 270px 1fr 280px;
-    gap: 16px;
-    padding: 12px 16px 16px 16px;
-    max-width: 1460px;
+    grid-template-columns: 240px 1fr 250px;
+    gap: 12px;
+    padding: 10px 14px 14px 14px;
+    max-width: 1440px;
     margin: 0 auto;
     width: 100%;
   }
 
+  /* Auto-collapse to 1 or 2 columns based on screen size */
+  @media (max-width: 1120px) {
+    main {
+      grid-template-columns: 1fr 260px;
+    }
+    aside.intel-panel { display: none; }
+  }
+  @media (max-width: 820px) {
+    main {
+      grid-template-columns: 1fr;
+    }
+    aside.log-panel { max-height: 200px; }
+  }
+
   .panel {
     background: var(--panel-bg);
-    backdrop-filter: blur(8px);
     border: 1px solid var(--panel-border);
-    border-radius: 12px;
-    padding: 14px;
+    border-radius: 10px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
+    min-width: 0;
   }
   .panel-title {
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.8px;
     color: var(--text-muted);
     font-weight: 700;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--panel-border);
-    padding-bottom: 6px;
+    padding-bottom: 4px;
   }
 
   .arena {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 12px;
+    gap: 10px;
+    min-width: 0;
   }
 
-  /* Rigs */
+  /* Player & AI Rigs */
   .rig-zone {
     background: rgba(15, 23, 42, 0.65);
     border: 1px solid var(--panel-border);
-    border-radius: 12px;
-    padding: 12px;
+    border-radius: 10px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     position: relative;
-    transition: all 0.25s ease;
+    min-width: 0;
   }
   .rig-zone.active-turn {
     border-color: var(--accent-blue);
-    box-shadow: 0 0 20px rgba(56, 189, 248, 0.22);
+    box-shadow: 0 0 16px rgba(56, 189, 248, 0.2);
   }
   .rig-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
   }
-  .pilot-info { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.95rem; }
+  .pilot-info { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.88rem; }
   .score-badge {
     background: #0B0F19;
     border: 1px solid var(--panel-border);
-    border-radius: 8px;
-    padding: 4px 12px;
+    border-radius: 6px;
+    padding: 3px 10px;
     font-family: monospace;
-    font-size: 0.95rem;
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-  .score-badge b { color: #38BDF8; font-size: 1.2rem; }
-
-  /* AI Hand Silhouette Display */
-  .ai-hand-rack {
+    font-size: 0.9rem;
     display: flex;
     gap: 6px;
     align-items: center;
   }
+  .score-badge b { color: #38BDF8; font-size: 1.15rem; }
+
+  .ai-hand-rack {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
   .ai-card-back {
-    width: 28px;
-    height: 40px;
-    border-radius: 4px;
+    width: 22px;
+    height: 32px;
+    border-radius: 3px;
     background: linear-gradient(135deg, #1E293B, #0F172A);
     border: 1px solid #334155;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.4);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.6rem;
+    font-size: 0.55rem;
     color: #475569;
-    transition: transform 0.2s;
   }
 
-  /* Stack Lane */
+  /* Stack Lane with horizontal scroll restraint */
   .stack-lane-wrap {
-    min-height: 195px;
+    min-height: calc(var(--card-h) + 24px);
     border-radius: 8px;
-    background: rgba(0,0,0,0.35);
+    background: rgba(0,0,0,0.3);
     border: 1px dashed #334155;
-    padding: 10px;
+    padding: 8px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     position: relative;
+    overflow: hidden;
   }
   .stack-lane {
     display: flex;
     align-items: center;
     overflow-x: auto;
-    padding-bottom: 6px;
-    min-height: 185px;
+    overflow-y: hidden;
+    padding-bottom: 4px;
+    min-height: var(--card-h);
+    width: 100%;
+    scrollbar-width: thin;
+    scrollbar-color: #334155 transparent;
   }
-  .stack-lane::-webkit-scrollbar { height: 6px; }
+  .stack-lane::-webkit-scrollbar { height: 5px; }
   .stack-lane::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
 
-  /* Neutral Strip */
+  /* Center Strip */
   .center-strip {
     display: flex;
     align-items: center;
     justify-content: space-around;
     background: rgba(15, 23, 42, 0.85);
     border: 1px solid var(--panel-border);
-    border-radius: 10px;
-    padding: 10px 16px;
+    border-radius: 8px;
+    padding: 8px 12px;
+    flex-wrap: wrap;
+    gap: 8px;
   }
-  .deck-pile, .discard-pile { display: flex; align-items: center; gap: 12px; }
+  .deck-pile, .discard-pile { display: flex; align-items: center; gap: 10px; }
   .card-slot {
-    width: 68px;
-    height: 98px;
+    width: 58px;
+    height: 84px;
     border-radius: 6px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     text-align: center;
     border: 2px dashed #334155;
     background: #0B0F19;
     position: relative;
     cursor: pointer;
-    transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+    transition: transform 0.15s, border-color 0.15s;
+    flex-shrink: 0;
   }
-  .card-slot:hover { transform: scale(1.05); }
+  .card-slot:hover { transform: scale(1.04); }
   .card-slot.deck-back {
     border: 2px solid #0284C7;
     background: linear-gradient(135deg, #0369A1, #0B0F19);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
   }
-  .card-slot.discard-active {
-    border: 2px solid #64748B;
-  }
-  .card-slot.discard-active:hover {
-    border-color: #38BDF8;
-    box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
-  }
-  .deck-count { font-size: 1.15rem; color: #FFF; font-weight: 900; }
+  .card-slot.discard-active { border: 2px solid #64748B; }
+  .card-slot.discard-active:hover { border-color: #38BDF8; }
+  .deck-count { font-size: 1.05rem; color: #FFF; font-weight: 900; }
 
   .turn-announcer { text-align: center; display: flex; flex-direction: column; gap: 2px; }
-  .turn-tag { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
-  .turn-title { font-size: 1.05rem; font-weight: 800; color: #38BDF8; }
+  .turn-tag { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted); }
+  .turn-title { font-size: 0.95rem; font-weight: 800; color: #38BDF8; }
 
   /* Player Hand Zone */
   .hand-zone {
     background: rgba(15, 23, 42, 0.95);
     border: 1px solid var(--panel-border);
-    border-radius: 12px;
-    padding: 12px;
+    border-radius: 10px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
+    min-width: 0;
   }
   .hand-cards {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     justify-content: center;
     flex-wrap: wrap;
-    min-height: 190px;
+    min-height: calc(var(--card-h) + 10px);
     align-items: center;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
-  /* Card Component & Visuals */
+  /* Card Component */
   .card {
     width: var(--card-w);
     height: var(--card-h);
-    border-radius: 8px;
+    border-radius: 6px;
     background: #0B0F19;
     border: 2px solid #334155;
     display: flex;
     flex-direction: column;
-    padding: 6px;
+    padding: 5px;
     position: relative;
     box-shadow: 0 4px 8px rgba(0,0,0,0.4);
     cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
     flex-shrink: 0;
-    animation: cardSpawn 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-  @keyframes cardSpawn {
-    0% { opacity: 0; transform: scale(0.8) translateY(12px); }
-    100% { opacity: 1; transform: scale(1) translateY(0); }
   }
   .card:hover {
-    transform: translateY(-10px) scale(1.03);
-    box-shadow: 0 12px 22px rgba(0,0,0,0.7);
-    z-index: 40;
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+    z-index: 30;
   }
   .card.selected {
-    transform: translateY(-14px) scale(1.05);
+    transform: translateY(-12px);
     border-color: #38BDF8 !important;
-    box-shadow: 0 0 20px #38BDF8 !important;
-    z-index: 50;
+    box-shadow: 0 0 16px #38BDF8 !important;
+    z-index: 40;
   }
 
-  /* Shingled Stack */
-  .stack-lane .card { margin-right: -52px; }
-  .stack-lane .card:hover { margin-right: 0px; z-index: 60; }
+  /* Shingled Stack Lane Cards */
+  .stack-lane .card {
+    margin-right: -46px;
+  }
+  .stack-lane .card:hover {
+    margin-right: 0px;
+    z-index: 50;
+  }
 
   /* Types */
   .card.type-code { border-color: var(--code-green); }
@@ -407,17 +416,16 @@
   .card.type-special .card-badge { background: var(--special-purple); color: #FFF; }
   .card.type-special .card-pill { border-color: var(--special-purple); color: var(--special-purple); }
 
-  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 4px; margin-bottom: 4px; }
-  .card-badge { border-radius: 4px; padding: 2px 4px; font-size: 0.62rem; font-weight: 900; font-family: monospace; line-height: 1; }
-  .card-title { font-size: 0.66rem; font-weight: 800; line-height: 1.1; flex: 1; color: #FFF; text-align: right; }
-  .card-art-box { flex: 1; background: #030712; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 1.7rem; margin-bottom: 4px; border: 1px solid rgba(255,255,255,0.06); }
-  .card-pill { font-size: 0.52rem; font-weight: 800; text-transform: uppercase; text-align: center; border: 1px solid #475569; border-radius: 10px; padding: 2px; margin-bottom: 4px; background: rgba(0,0,0,0.3); }
-  .card-desc { font-size: 0.53rem; line-height: 1.15; color: #CBD5E1; height: 38px; overflow: hidden; }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 3px; margin-bottom: 2px; }
+  .card-badge { border-radius: 3px; padding: 1px 3px; font-size: 0.58rem; font-weight: 900; font-family: monospace; line-height: 1; }
+  .card-title { font-size: 0.62rem; font-weight: 800; line-height: 1.1; flex: 1; color: #FFF; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .card-art-box { flex: 1; background: #030712; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 2px; border: 1px solid rgba(255,255,255,0.06); }
+  .card-pill { font-size: 0.48rem; font-weight: 800; text-transform: uppercase; text-align: center; border: 1px solid #475569; border-radius: 8px; padding: 1px; margin-bottom: 2px; background: rgba(0,0,0,0.3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .card-desc { font-size: 0.5rem; line-height: 1.15; color: #CBD5E1; height: 32px; overflow: hidden; }
 
-  /* Log */
-  .log-stream { flex: 1; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; font-size: 0.78rem; max-height: 480px; }
-  .log-entry { padding: 6px 8px; border-radius: 6px; background: #0B0F19; border-left: 3px solid #475569; line-height: 1.3; animation: fadeIn 0.25s ease; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateX(8px); } to { opacity: 1; transform: translateX(0); } }
+  /* Log Stream */
+  .log-stream { flex: 1; display: flex; flex-direction: column; gap: 5px; overflow-y: auto; font-size: 0.74rem; max-height: 480px; }
+  .log-entry { padding: 5px 7px; border-radius: 5px; background: #0B0F19; border-left: 3px solid #475569; line-height: 1.3; }
   .log-entry.human { border-color: var(--accent-blue); }
   .log-entry.ai { border-color: var(--gold); }
   .log-entry.undo { border-color: var(--glitch-red); }
@@ -426,54 +434,49 @@
   /* Modals */
   .modal-overlay {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(6px);
     display: flex; align-items: center; justify-content: center;
-    z-index: 500; padding: 20px;
+    z-index: 500; padding: 16px;
   }
   .modal {
-    background: #0B0F19; border: 1px solid #334155; border-radius: 14px;
-    max-width: 640px; width: 100%; padding: 24px;
-    display: flex; flex-direction: column; gap: 16px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+    background: #0B0F19; border: 1px solid #334155; border-radius: 12px;
+    max-width: 620px; width: 100%; padding: 20px;
+    display: flex; flex-direction: column; gap: 14px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.9);
     max-height: 90vh; overflow-y: auto;
   }
-  .modal h2 { color: #38BDF8; font-size: 1.35rem; display: flex; gap: 8px; align-items: center; }
-  .modal p { font-size: 0.88rem; line-height: 1.45; color: #CBD5E1; }
-  .modal-section { border-left: 3px solid #38BDF8; padding-left: 12px; margin-top: 4px; }
-  .modal-section h4 { color: #FFF; font-size: 0.92rem; margin-bottom: 3px; }
-  .walkthrough-step { background: #131B2E; border: 1px solid #334155; border-radius: 8px; padding: 14px; font-size: 0.88rem; line-height: 1.45; }
+  .modal h2 { color: #38BDF8; font-size: 1.25rem; display: flex; gap: 6px; align-items: center; }
+  .modal p { font-size: 0.84rem; line-height: 1.4; color: #CBD5E1; }
+  .modal-section { border-left: 3px solid #38BDF8; padding-left: 10px; margin-top: 3px; }
+  .modal-section h4 { color: #FFF; font-size: 0.88rem; margin-bottom: 2px; }
+  .walkthrough-step { background: #131B2E; border: 1px solid #334155; border-radius: 6px; padding: 12px; font-size: 0.84rem; line-height: 1.4; }
 
-  /* Flash Alert */
   .flash-banner {
-    position: fixed; top: 65px; left: 50%; transform: translateX(-50%);
-    background: #DC2626; color: #FFF; font-weight: 800; padding: 8px 24px;
-    border-radius: 30px; box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4);
-    z-index: 300; display: none; font-size: 0.9rem; letter-spacing: 0.5px;
-    animation: alertPop 0.3s ease;
+    position: fixed; top: 55px; left: 50%; transform: translateX(-50%);
+    background: #DC2626; color: #FFF; font-weight: 800; padding: 6px 20px;
+    border-radius: 30px; box-shadow: 0 8px 20px rgba(220, 38, 38, 0.4);
+    z-index: 300; display: none; font-size: 0.85rem;
   }
-  @keyframes alertPop { 0% { transform: translate(-50%, -20px); opacity: 0; } 100% { transform: translate(-50%, 0); opacity: 1; } }
 
   .picker-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(124px, 1fr));
-    gap: 10px;
-    max-height: 380px;
+    grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+    gap: 8px;
+    max-height: 360px;
     overflow-y: auto;
-    padding: 6px;
+    padding: 4px;
   }
 
-  /* Interactive Undo Prompt Callout */
   .undo-callout-box {
     background: #131B2E;
     border: 2px solid #EF4444;
-    border-radius: 12px;
-    padding: 16px;
+    border-radius: 10px;
+    padding: 14px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     align-items: center;
     text-align: center;
-    box-shadow: 0 0 25px rgba(239, 68, 68, 0.25);
   }
 </style>
 </head>
@@ -483,23 +486,23 @@
   <div class="brand">
     <span class="code">{ STACK</span>
     <span class="bug">OVERFLOW }</span>
-    <small style="color:var(--text-muted); font-size:0.75rem; font-weight:normal; margin-left:6px;">Tabletop Cyber Duel</small>
+    <small style="color:var(--text-muted); font-size:0.72rem; font-weight:normal; margin-left:4px;">Tabletop Duel</small>
   </div>
   <div class="btn-group">
     <button id="soundToggleBtn" class="btn toggle-audio" onclick="toggleSound()">🔊 Sound: ON</button>
-    <button class="btn" onclick="openModal('quickstart')">📖 Quick Rules</button>
-    <button class="btn" onclick="openModal('tutorial')">🎓 CS Concepts</button>
-    <button class="btn btn-gold" onclick="startWalkthrough()">🚀 Interactive Walkthrough</button>
+    <button class="btn" onclick="openModal('quickstart')">📖 Rules</button>
+    <button class="btn" onclick="openModal('tutorial')">🎓 CS Guide</button>
+    <button class="btn btn-gold" onclick="startWalkthrough()">🚀 Walkthrough</button>
     <button class="btn btn-primary" onclick="initNewGame()">🔄 New Duel</button>
   </div>
 </header>
 
-<!-- TOP DEDICATED AI CHAT & TELEMETRY PILL -->
+<!-- Top AI Chat / Action Pill -->
 <div class="ai-pill-bar">
-  <div id="aiChatPill" class="ai-chat-pill glow-action" title="Live Cyber-Bot Telemetry & Explanation">
+  <div id="aiChatPill" class="ai-chat-pill glow-action">
     <div id="aiStatusDot" class="status-dot"></div>
     <span id="aiPillLabel" class="ai-pill-label">CYBER-BOT:</span>
-    <span id="aiPillText" class="ai-pill-text">"System online. 54 CS cards loaded. Draw 1 card from the Central Deck to begin Sprint 1!"</span>
+    <span id="aiPillText" class="ai-pill-text">"System ready. Draw 1 card from the Central Deck to initiate your turn!"</span>
   </div>
 </div>
 
@@ -507,26 +510,25 @@
 
 <main>
   <!-- Left Telemetry & Inspector -->
-  <aside class="panel">
-    <div class="panel-title"><span>System Telemetry</span> <span>⚡</span></div>
-    <div style="font-size:0.78rem; line-height:1.4; color:var(--text-muted);">
-      <div><b>Memory Model:</b> Hand (RAM) vs Stack (Build)</div>
-      <div><b>Starting Hand:</b> 5 Cards Each</div>
-      <div><b>Deck:</b> 54 Cards (31 Unique Concepts)</div>
-      <div><b>Undo Rule:</b> Always Prompts User Choice</div>
+  <aside class="panel intel-panel">
+    <div class="panel-title"><span>Telemetry & Rules</span> <span>⚡</span></div>
+    <div style="font-size:0.75rem; line-height:1.35; color:var(--text-muted);">
+      <div>• <b>Victory / End:</b> Game ends when <b>any player runs out of cards</b>!</div>
+      <div>• <b>Stack:</b> Public build (counts for score).</div>
+      <div>• <b>Hand:</b> Private RAM (0 pts at endgame).</div>
+      <div>• <b>Copy & Paste:</b> You <i>choose</i> which Code to take!</div>
     </div>
     
-    <div class="panel-title" style="margin-top:10px;"><span>Active Card Inspector</span> <span>🔍</span></div>
-    <div id="inspectorBox" style="background:#070B14; border:1px solid #1E293B; border-radius:8px; padding:10px; font-size:0.76rem; line-height:1.35; min-height:140px; color:#CBD5E1;">
-      <i>Hover or select any card to inspect its CS concept, rules mechanics, and flavor text.</i>
+    <div class="panel-title" style="margin-top:4px;"><span>Card Inspector</span> <span>🔍</span></div>
+    <div id="inspectorBox" style="background:#070B14; border:1px solid #1E293B; border-radius:6px; padding:8px; font-size:0.72rem; line-height:1.3; min-height:130px; color:#CBD5E1;">
+      <i>Hover or click any card to inspect its CS concept, rules, and flavor text.</i>
     </div>
 
-    <div class="panel-title" style="margin-top:10px;"><span>Score Compiler</span> <span>🧮</span></div>
-    <div style="font-size:0.74rem; line-height:1.4; color:var(--text-muted); background:#070B14; padding:8px; border-radius:6px; border:1px solid #1E293B;">
-      <div>• <b>Formula:</b> (Code Pts × Overclock) + Glitches</div>
-      <div>• <b>Overclock! (★):</b> 1 = 2x, 2 = 4x Code Points</div>
-      <div>• <b>It's a Feature! (★):</b> Glitches turn <b>POSITIVE</b>!</div>
-      <div>• <b>Unplayed Hand Cards:</b> 0 Points</div>
+    <div class="panel-title" style="margin-top:4px;"><span>Score Compiler</span> <span>🧮</span></div>
+    <div style="font-size:0.72rem; line-height:1.35; color:var(--text-muted); background:#070B14; padding:6px; border-radius:6px; border:1px solid #1E293B;">
+      <div>• <b>Score:</b> (Code × Overclock) + Glitches</div>
+      <div>• <b>Overclock! (★):</b> 2x (or 4x if stacked)</div>
+      <div>• <b>It's a Feature! (★):</b> Glitches flip to <b>+</b></div>
     </div>
   </aside>
 
@@ -536,7 +538,7 @@
     <div id="aiRig" class="rig-zone">
       <div class="rig-header">
         <div class="pilot-info">
-          <span style="font-size:1.2rem;">🤖</span>
+          <span>🤖</span>
           <span>CYBER-BOT OMEGA</span>
           <div id="aiHandCards" class="ai-hand-rack" title="Cyber-Bot Hand (Hidden RAM)"></div>
         </div>
@@ -546,22 +548,22 @@
         </div>
       </div>
       <div class="stack-lane-wrap">
-        <div style="position:absolute; top:6px; left:10px; font-size:0.68rem; font-weight:800; color:#64748B; text-transform:uppercase;">Opponent Tabletop Stack (Targetable)</div>
+        <div style="position:absolute; top:4px; left:8px; font-size:0.64rem; font-weight:800; color:#64748B; text-transform:uppercase;">Opponent Tabletop Stack</div>
         <div id="aiStackLane" class="stack-lane"></div>
       </div>
     </div>
 
-    <!-- Center Strip: Deck, Announcer, Discard -->
+    <!-- Center Strip -->
     <div class="center-strip">
       <div class="deck-pile">
         <div id="deckSlot" class="card-slot deck-back" onclick="playerDrawClick()">
-          <span style="font-size:0.6rem; color:#38BDF8;">DRAW</span>
+          <span style="font-size:0.58rem; color:#38BDF8;">DRAW</span>
           <span id="deckCount" class="deck-count">44</span>
-          <span style="font-size:0.55rem; color:#94A3B8;">CARDS</span>
+          <span style="font-size:0.5rem; color:#94A3B8;">CARDS</span>
         </div>
-        <div style="font-size:0.75rem; line-height:1.2;">
+        <div style="font-size:0.72rem; line-height:1.15;">
           <b>Central Deck</b><br>
-          <span style="color:var(--text-muted); font-size:0.7rem;">Click to draw</span>
+          <span style="color:var(--text-muted); font-size:0.66rem;">Click to draw</span>
         </div>
       </div>
 
@@ -571,13 +573,13 @@
       </div>
 
       <div class="discard-pile">
-        <div style="text-align:right; font-size:0.75rem; line-height:1.2;">
+        <div style="text-align:right; font-size:0.72rem; line-height:1.15;">
           <b>Discard Archive</b><br>
-          <span id="discardCount" style="color:var(--text-muted); font-size:0.7rem;">0 Cards</span>
+          <span id="discardCount" style="color:var(--text-muted); font-size:0.66rem;">0 Cards</span>
         </div>
-        <div id="discardSlot" class="card-slot discard-active" onclick="openDiscardViewer()" title="Click to inspect all discarded cards">
-          <span style="font-size:1.3rem;">🗑️</span>
-          <span style="font-size:0.55rem; color:#38BDF8; font-weight:700;">INSPECT</span>
+        <div id="discardSlot" class="card-slot discard-active" onclick="openDiscardViewer()" title="Click to view all discarded cards">
+          <span style="font-size:1.1rem;">🗑️</span>
+          <span style="font-size:0.52rem; color:#38BDF8; font-weight:700;">INSPECT</span>
         </div>
       </div>
     </div>
@@ -586,9 +588,9 @@
     <div id="playerRig" class="rig-zone">
       <div class="rig-header">
         <div class="pilot-info">
-          <span style="font-size:1.2rem;">👨‍💻</span>
+          <span>👨‍💻</span>
           <span>YOUR CODEBASE</span>
-          <span style="font-size:0.75rem; color:var(--text-muted);">(Tabletop Stack)</span>
+          <span style="font-size:0.72rem; color:var(--text-muted);">(Tabletop Stack)</span>
         </div>
         <div class="score-badge">
           <span>YOUR SCORE:</span>
@@ -596,18 +598,18 @@
         </div>
       </div>
       <div class="stack-lane-wrap">
-        <div style="position:absolute; top:6px; left:10px; font-size:0.68rem; font-weight:800; color:#64748B; text-transform:uppercase;">Your Tabletop Stack (Build)</div>
+        <div style="position:absolute; top:4px; left:8px; font-size:0.64rem; font-weight:800; color:#64748B; text-transform:uppercase;">Your Live Tabletop Stack</div>
         <div id="playerStackLane" class="stack-lane"></div>
       </div>
     </div>
 
     <!-- Player Hand Zone -->
     <div class="hand-zone">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-size:0.8rem; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; color:#38BDF8;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:4px;">
+        <span style="font-size:0.76rem; font-weight:800; text-transform:uppercase; color:#38BDF8;">
           🃏 Your Hand (RAM) — <span id="handCountStatus">5 Cards</span>
         </span>
-        <div id="handActionControls" style="display:none; gap:6px;">
+        <div id="handActionControls" style="display:none; gap:5px; flex-wrap:wrap;">
           <button id="btnPlaySelf" class="btn btn-primary" onclick="executeChosenPlay('self')">Play on My Stack</button>
           <button id="btnPlayOpp" class="btn" style="border-color:#EF4444;" onclick="executeChosenPlay('opp')">Play on AI Stack</button>
           <button id="btnExecuteAction" class="btn btn-primary" onclick="executeChosenPlay('action')" style="display:none;">Execute Command</button>
@@ -620,8 +622,8 @@
   </section>
 
   <!-- Live Turn Log -->
-  <aside class="panel">
-    <div class="panel-title"><span>Live Runtime Log</span> <span>📜</span></div>
+  <aside class="panel log-panel">
+    <div class="panel-title"><span>Runtime Log</span> <span>📜</span></div>
     <div id="logStream" class="log-stream"></div>
   </aside>
 </main>
@@ -630,26 +632,45 @@
 
 <!-- Interactive Player Undo Prompt Modal -->
 <div id="modalUndoPrompt" class="modal-overlay" style="display:none;">
-  <div class="modal" style="max-width:540px;">
+  <div class="modal" style="max-width:500px;">
     <div class="undo-callout-box">
-      <div style="font-size:2.4rem;">⚠️🛡️</div>
+      <div style="font-size:2.2rem;">⚠️🛡️</div>
       <h2 style="color:#EF4444; margin:0;">HOSTILE MOVE DETECTED!</h2>
-      <p id="undoPromptDesc" style="color:#F8FAFC; font-size:0.95rem; line-height:1.4;">
+      <p id="undoPromptDesc" style="color:#F8FAFC; font-size:0.9rem; line-height:1.4;">
         Cyber-Bot is attacking with a card!
       </p>
-      <div id="undoPromptCardPreview" style="margin:6px 0;"></div>
-      <p style="font-size:0.82rem; color:var(--text-muted);">
+      <div id="undoPromptCardPreview" style="margin:4px 0;"></div>
+      <p style="font-size:0.78rem; color:var(--text-muted);">
         You hold <b>Undo! (Ctrl + Z)</b> in your Hand. Would you like to use it now to cancel and discard this attack, or save your Undo for later?
       </p>
-      <div style="display:flex; gap:12px; width:100%; justify-content:center; margin-top:6px;">
-        <button class="btn btn-danger" style="padding:10px 18px; font-size:0.9rem;" onclick="playerDecideUndo(true)">
+      <div style="display:flex; gap:10px; width:100%; justify-content:center; margin-top:4px;">
+        <button class="btn btn-danger" style="padding:8px 16px; font-size:0.85rem;" onclick="playerDecideUndo(true)">
           🛡️ Use Undo! (Ctrl + Z)
         </button>
-        <button class="btn" style="padding:10px 18px; font-size:0.9rem;" onclick="playerDecideUndo(false)">
+        <button class="btn" style="padding:8px 16px; font-size:0.85rem;" onclick="playerDecideUndo(false)">
           Let It Pass (Save Undo)
         </button>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Interactive Copy & Paste Modal (PLAYER CHOOSES EXACT CODE CARD TO STEAL) -->
+<div id="modalCopyPaste" class="modal-overlay" style="display:none;">
+  <div class="modal" style="max-width:680px;">
+    <h2>📋 Copy & Paste: Select 1 Code Card to Steal</h2>
+    <p>Choose which Code Card (+) from <b>Cyber-Bot's Stack</b> you want to duplicate into your own stack:</p>
+    <div id="copyPasteList" class="picker-grid"></div>
+    <button class="btn" onclick="closeModals()">Cancel</button>
+  </div>
+</div>
+
+<!-- Interactive Search the Web Modal -->
+<div id="modalSearchWeb" class="modal-overlay" style="display:none;">
+  <div class="modal" style="max-width:680px;">
+    <h2>🌐 Search the Web: Select 1 Card to Retrieve</h2>
+    <p>Choose any card from the Discard Archive to pull straight into your Hand:</p>
+    <div id="searchWebList" class="picker-grid"></div>
   </div>
 </div>
 
@@ -660,25 +681,26 @@
     <p>A fast, tactical, educational card duel where you assemble software while defending against and deploying glitches!</p>
     
     <div class="modal-section">
-      <h4>1. Memory Architecture: Hand vs. Stack</h4>
-      <p>• <b>Your Hand (5 Cards):</b> Private RAM held in secret. Unplayed cards left in hand at endgame score <b>0 points</b>.<br>
-      • <b>Your Stack:</b> The public tabletop column in front of you. <b>Only cards in your Stack determine your score!</b></p>
+      <h4>1. Core End Condition</h4>
+      <p>• The game ends <b>immediately when ANY player runs out of cards</b> in their hand! Whoever has the highest compiled score in their tabletop <b>Stack</b> at that moment wins.</p>
     </div>
 
     <div class="modal-section">
-      <h4>2. Turn Loop</h4>
-      <p>1. <b>DRAW</b> 1 card from the central deck into your hand.<br>
-      2. <b>PLAY</b> 1 card (onto your Stack, opponent's Stack, or Discard).</p>
+      <h4>2. Hand vs. Stack</h4>
+      <p>• <b>Your Hand (5 Cards):</b> Private RAM. Cards in hand score <b>0 points</b>.<br>
+      • <b>Your Stack:</b> The public tabletop column. <b>Only cards deployed here count toward final victory!</b></p>
     </div>
 
     <div class="modal-section">
-      <h4>3. Play on Any Stack (Baiting & Sabotage)</h4>
-      <p>Both Code (+) and Glitches (-) can target either player's stack. Boost yourself, hinder the AI, or plant a +5 Code card onto the AI as bait to steal back with <i>Copy & Paste</i>!</p>
+      <h4>3. Stealing & Trading Clarifications</h4>
+      <p>• <b>Copy & Paste:</b> YOU choose the exact Code Card (+) you want from the opponent's stack and snatch it.<br>
+      • <b>Team Brainstorm:</b> Each player secretly selects 1 card from their own hand and swaps it with the opponent.<br>
+      • <b>Reboot:</b> Discards the TOP-most card of the chosen stack (LIFO rule).</p>
     </div>
 
     <div class="modal-section">
-      <h4>4. Strategic Reactions (Undo! Prompt)</h4>
-      <p>Holding an <b>Undo! (Ctrl + Z)</b> gives you a strategic choice! Whenever Cyber-Bot plays a hostile Glitch or Command against you, the game asks if you want to expend your Undo or save it for a deadlier attack later.</p>
+      <h4>4. Strategic Reactions (Undo!)</h4>
+      <p>Holding an <b>Undo! (Ctrl + Z)</b> prompts you with a choice whenever the AI attacks you: cancel it or save it!</p>
     </div>
 
     <button class="btn btn-primary" onclick="closeModals()">Got It — Let's Code!</button>
@@ -689,53 +711,35 @@
 <div id="modalTutorial" class="modal-overlay" style="display:none;">
   <div class="modal">
     <h2>🎓 The 31 CS Concepts Compendium</h2>
-    <p>Every card translates fundamental computing into beginner-accessible logic:</p>
-    
     <div class="modal-section">
       <h4>🟢 Code Cards (+1 to +5 Points)</h4>
-      <p><b>Variables (+1):</b> Storage boxes for numbers, words ("Hello"), flags (True/False), and contact list dictionaries.<br>
-      <b>Loops (+2):</b> Automatic repeaters (For, While, Do-While, Auto-Retry) so you never write repetitive code twice.<br>
-      <b>Decisions (+3):</b> Smart cause-and-effect rules (If-Then, If-Else, Switch/Case) guiding software logic.<br>
-      <b>Modular Architecture (+4):</b> Reusable Functions, App Templates, and Data Cloud Links.<br>
-      <b>Optimized Algorithms (+5):</b> Fast Search (High-Low halving) and Sorting Algorithms.</p>
+      <p><b>Variables (+1):</b> Storage for numbers, text, flags, and contact lists.<br>
+      <b>Loops (+2):</b> Automatic repeaters (For, While, Do-While, Auto-Retry).<br>
+      <b>Decisions (+3):</b> Smart conditional rules (If-Then, If-Else, Switch/Case).<br>
+      <b>Modular Architecture (+4):</b> Reusable Functions, App Templates, and Cloud Links.<br>
+      <b>Optimized Algorithms (+5):</b> Fast Search (High-Low halving) and Sorting.</p>
     </div>
-
     <div class="modal-section">
       <h4>🔴 Glitches (-1 to -4 Penalty Points)</h4>
-      <p><b>Typo! (-1):</b> Spelling slips or missing semicolons.<br>
-      <b>Infinite Loop (-2):</b> A broken loop that spins endlessly with no stop condition.<br>
-      <b>Frozen Screen (-3):</b> App overwhelmed by tasks and locked up.<br>
-      <b>Total Crash (-4):</b> Fatal unrecoverable runtime crash.</p>
+      <p><b>Typo! (-1), Infinite Loop (-2), Frozen Screen (-3), Total Crash (-4).</b></p>
     </div>
-
     <div class="modal-section">
       <h4>⚡ Commands & ★ Game-Changers</h4>
-      <p><b>Undo! (Ctrl+Z):</b> Popping the last hostile action off the execution stack.<br>
-      <b>Copy & Paste:</b> Duplicating valuable code from rival stack into yours.<br>
-      <b>It's a Feature, Not a Bug!:</b> Inverts ALL negative Glitches in your stack to positive points!<br>
-      <b>Overclock!:</b> Doubles your Code points (4x if stacked twice!).</p>
+      <p><b>Undo! (Ctrl+Z):</b> Instant interrupt.<br>
+      <b>It's a Feature, Not a Bug!:</b> Glitches become positive points!<br>
+      <b>Overclock!:</b> Doubles your code score!</p>
     </div>
-
     <button class="btn btn-primary" onclick="closeModals()">Close Compendium</button>
   </div>
 </div>
 
-<!-- Discard Pile Archive Modal -->
+<!-- Discard Archive Modal -->
 <div id="modalDiscard" class="modal-overlay" style="display:none;">
-  <div class="modal" style="max-width:760px;">
+  <div class="modal" style="max-width:680px;">
     <h2>🗑️ Discard Archive (Inspect Any Time)</h2>
-    <p style="font-size:0.8rem; color:var(--text-muted);">Inspect all spent, discarded, or vaporized cards. Any player can view this at any time during the match.</p>
+    <p style="font-size:0.78rem; color:var(--text-muted);">Inspect all spent, discarded, or vaporized cards.</p>
     <div id="discardList" class="picker-grid"></div>
     <button class="btn btn-primary" onclick="closeModals()">Close Archive</button>
-  </div>
-</div>
-
-<!-- Interactive Search the Web Modal -->
-<div id="modalSearchWeb" class="modal-overlay" style="display:none;">
-  <div class="modal" style="max-width:760px;">
-    <h2>🌐 Search the Web: Select 1 Card to Retrieve</h2>
-    <p>Choose any card from the Discard Archive to pull straight into your Hand:</p>
-    <div id="searchWebList" class="picker-grid"></div>
   </div>
 </div>
 
@@ -757,23 +761,23 @@
   <div class="modal" style="text-align:center;">
     <h2 id="gameOverTitle" style="justify-content:center;">🏆 MATCH CONCLUDED</h2>
     <p id="gameOverDesc"></p>
-    <div style="display:flex; justify-content:center; gap:20px; margin:16px 0;">
-      <div style="background:#070B14; padding:14px; border-radius:10px; border:1px solid #38BDF8; width:140px;">
-        <div style="font-size:0.8rem; color:var(--text-muted);">YOU</div>
-        <div id="finalScorePlayer" style="font-size:2rem; font-weight:900; color:#38BDF8;">0</div>
+    <div style="display:flex; justify-content:center; gap:16px; margin:14px 0;">
+      <div style="background:#070B14; padding:12px; border-radius:8px; border:1px solid #38BDF8; width:130px;">
+        <div style="font-size:0.75rem; color:var(--text-muted);">YOU</div>
+        <div id="finalScorePlayer" style="font-size:1.8rem; font-weight:900; color:#38BDF8;">0</div>
       </div>
-      <div style="background:#070B14; padding:14px; border-radius:10px; border:1px solid #F59E0B; width:140px;">
-        <div style="font-size:0.8rem; color:var(--text-muted);">AI BOT</div>
-        <div id="finalScoreAI" style="font-size:2rem; font-weight:900; color:#F59E0B;">0</div>
+      <div style="background:#070B14; padding:12px; border-radius:8px; border:1px solid #F59E0B; width:130px;">
+        <div style="font-size:0.75rem; color:var(--text-muted);">AI BOT</div>
+        <div id="finalScoreAI" style="font-size:1.8rem; font-weight:900; color:#F59E0B;">0</div>
       </div>
     </div>
-    <div id="gameOverBreakdown" style="font-size:0.82rem; color:var(--text-muted); margin-bottom:12px; line-height:1.4;"></div>
+    <div id="gameOverBreakdown" style="font-size:0.8rem; color:var(--text-muted); margin-bottom:10px; line-height:1.4;"></div>
     <button class="btn btn-primary" onclick="initNewGame()">Play Another Duel</button>
   </div>
 </div>
 
 <script>
-// --- AUDIO SYNTHESIS ENGINE (Web Audio API) ---
+// --- AUDIO SYNTHESIS ENGINE ---
 let audioCtx = null;
 let soundEnabled = true;
 
@@ -813,7 +817,6 @@ function playSound(name) {
   } else if (name === 'play_code') {
     playTone(523.25, 'triangle', 0.1, 0.15);
     setTimeout(() => playTone(659.25, 'triangle', 0.12, 0.18), 70);
-    setTimeout(() => playTone(783.99, 'triangle', 0.16, 0.2), 140);
   } else if (name === 'play_glitch') {
     playTone(220, 'sawtooth', 0.14, 0.2);
     setTimeout(() => playTone(164.81, 'sawtooth', 0.2, 0.22), 80);
@@ -822,17 +825,14 @@ function playSound(name) {
     setTimeout(() => playTone(440, 'square', 0.14, 0.2), 60);
   } else if (name === 'special') {
     playTone(440, 'sine', 0.1, 0.15);
-    setTimeout(() => playTone(554.37, 'sine', 0.1, 0.15), 60);
-    setTimeout(() => playTone(659.25, 'sine', 0.1, 0.15), 120);
-    setTimeout(() => playTone(880, 'sine', 0.22, 0.2), 180);
+    setTimeout(() => playTone(659.25, 'sine', 0.15, 0.18), 80);
   } else if (name === 'discard') {
     playTone(180, 'sine', 0.08, 0.08);
   }
 }
 
-// --- CARD DATABASE: 31 CONCEPTS / 54 CARDS ---
+// --- MASTER CARD DATABASE (31 CONCEPTS, 54 CARDS) ---
 const CARD_DB = [
-  // 20 Unique Code Cards (+1 to +5)
   { id: 'int_var', name: 'Integer Variable', type: 'code', val: 1, pill: 'Play on Any Stack', badge: '+1 CODE', icon: '🔢', concept: 'Whole numbers (age, scores, level) with no decimals.', flavor: 'Counting from zero, because that is how machines think.' },
   { id: 'str_var', name: 'String Variable', type: 'code', val: 1, pill: 'Play on Any Stack', badge: '+1 CODE', icon: '💬', concept: 'Written text characters enclosed in quotes.', flavor: 'Hello World! The universal beginning of all software.' },
   { id: 'bool_flag', name: 'Boolean Flag', type: 'code', val: 1, pill: 'Play on Any Stack', badge: '+1 CODE', icon: '💡', concept: 'A digital light switch holding strictly True or False.', flavor: 'Yes or no. Absolute certainty with zero gray area.' },
@@ -866,9 +866,9 @@ const CARD_DB = [
 
   // Commands (16 cards)
   { id: 'undo', name: 'Undo! (Ctrl+Z)', type: 'reaction', val: 0, count: 4, pill: 'Play Anytime', badge: '⚡ REACTION', icon: '🛡️', concept: 'Lifesaver command cancelling the last hostile play.', flavor: 'The greatest keyboard shortcut ever invented.' },
-  { id: 'copy_paste', name: 'Copy & Paste', type: 'action', val: 0, count: 3, pill: 'Play on Your Turn', badge: '⚡ ACTION', icon: '📋', concept: 'Steal 1 Code Card (+) from opponent stack into yours.', flavor: 'Why write code from scratch when someone made it?' },
+  { id: 'copy_paste', name: 'Copy & Paste', type: 'action', val: 0, count: 3, pill: 'Play on Your Turn', badge: '⚡ ACTION', icon: '📋', concept: 'YOU choose 1 Code Card (+) from opponent stack into yours.', flavor: 'Why write code from scratch when someone made it?' },
   { id: 'search_web', name: 'Search the Web', type: 'action', val: 0, count: 3, pill: 'Play on Your Turn', badge: '⚡ ACTION', icon: '🌐', concept: 'Search Discard Pile and retrieve any 1 card to Hand.', flavor: 'A developer from eight years ago already solved this.' },
-  { id: 'brainstorm', name: 'Team Brainstorm', type: 'action', val: 0, count: 3, pill: 'Play on Your Turn', badge: '⚡ ACTION', icon: '🤝', concept: 'All players secretly pass 1 card from hand to rival.', flavor: 'Fresh eyes catch what compiler missed. Rotate!' },
+  { id: 'brainstorm', name: 'Team Brainstorm', type: 'action', val: 0, count: 3, pill: 'Play on Your Turn', badge: '⚡ ACTION', icon: '🤝', concept: 'Each player secretly chooses 1 card from hand to exchange.', flavor: 'Fresh eyes catch what compiler missed. Rotate!' },
   { id: 'reboot', name: 'Reboot', type: 'action', val: 0, count: 3, pill: 'Play on Your Turn', badge: '⚡ ACTION', icon: '🔌', concept: 'Discard top card from any stack to reset state.', flavor: 'First rule of tech support: cycle power and verify.' },
 
   // Game-Changers (4 cards)
@@ -888,7 +888,6 @@ function generateMasterDeck() {
   return deck;
 }
 
-// Game State
 let G = {
   deck: [],
   discard: [],
@@ -904,23 +903,18 @@ let G = {
   pendingAiAction: null
 };
 
-// HELPER: Update the Dedicated AI Top Pill State
 function updateAiPill(text, state = 'idle', speaker = 'CYBER-BOT:') {
   const pill = document.getElementById('aiChatPill');
   const label = document.getElementById('aiPillLabel');
   const body = document.getElementById('aiPillText');
 
-  pill.className = 'ai-chat-pill'; // Reset classes
+  pill.className = 'ai-chat-pill';
   label.innerText = speaker;
   body.innerHTML = text;
 
-  if (state === 'attention') {
-    pill.classList.add('glow-attention');
-  } else if (state === 'thinking') {
-    pill.classList.add('glow-thinking');
-  } else if (state === 'action') {
-    pill.classList.add('glow-action');
-  }
+  if (state === 'attention') pill.classList.add('glow-attention');
+  else if (state === 'thinking') pill.classList.add('glow-thinking');
+  else if (state === 'action') pill.classList.add('glow-action');
 }
 
 function initNewGame() {
@@ -944,16 +938,15 @@ function initNewGame() {
   G.turnCount = 1;
   G.pendingAiAction = null;
 
-  // STRICT 5-CARD STARTING HANDS
   for (let i = 0; i < 5; i++) {
     G.playerHand.push(G.deck.pop());
     G.aiHand.push(G.deck.pop());
   }
 
   document.getElementById('logStream').innerHTML = '';
-  addLog('STACK OVERFLOW initialized. 54 CS cards loaded into central memory. 5 cards dealt to active RAM each.', 'system');
+  addLog('STACK OVERFLOW initialized. 54 CS cards loaded. Hands deal 5 cards each.', 'system');
   addLog('Turn 1: Click the central deck to draw a card into your hand.', 'human');
-  updateAiPill('"System online. 5 cards loaded in your RAM. Click the Central Deck to draw your turn card!"', 'action', 'CYBER-BOT:');
+  updateAiPill('"System online. Draw 1 card from the Central Deck to begin!"', 'action', 'CYBER-BOT:');
   playSound('special');
   renderAll();
 }
@@ -1017,8 +1010,8 @@ function renderAll() {
   deckSlot.style.borderColor = '#0284C7';
 
   if (G.gameOver) {
-    turnTag.innerText = 'COMPILE COMPLETE';
-    turnTitle.innerText = 'Match Finished!';
+    turnTag.innerText = 'MATCH COMPLETE';
+    turnTitle.innerText = 'Duel Finished!';
     return;
   }
 
@@ -1037,7 +1030,7 @@ function renderAll() {
   } else {
     aiRig.classList.add('active-turn');
     turnTag.innerText = `TURN ${G.turnCount} • AI RUNTIME`;
-    turnTitle.innerText = 'Cyber-Bot is Processing...';
+    turnTitle.innerText = 'Cyber-Bot is Computing...';
     deckSlot.style.boxShadow = 'none';
   }
 }
@@ -1046,7 +1039,7 @@ function renderStack(elemId, stack) {
   const container = document.getElementById(elemId);
   container.innerHTML = '';
   if (stack.length === 0) {
-    container.innerHTML = '<div style="color:#475569; font-size:0.75rem; font-style:italic; padding:10px;">Stack is currently empty. Drop code or bugs here.</div>';
+    container.innerHTML = '<div style="color:#475569; font-size:0.72rem; font-style:italic; padding:8px;">Stack is currently empty.</div>';
     return;
   }
   stack.forEach((card, idx) => {
@@ -1092,10 +1085,10 @@ function createCardElement(card) {
 function inspectCard(card) {
   const box = document.getElementById('inspectorBox');
   box.innerHTML = `
-    <div style="font-weight:800; color:#38BDF8; font-size:0.85rem; margin-bottom:2px;">${card.name} (${card.badge})</div>
-    <div style="color:var(--text-muted); font-size:0.7rem; margin-bottom:4px;">Directive: <b>${card.pill}</b></div>
-    <div style="margin-bottom:6px;"><b>CS Concept:</b> ${card.concept}</div>
-    <div style="color:#94A3B8; font-style:italic; font-size:0.72rem;">"${card.flavor}"</div>
+    <div style="font-weight:800; color:#38BDF8; font-size:0.8rem; margin-bottom:2px;">${card.name} (${card.badge})</div>
+    <div style="color:var(--text-muted); font-size:0.68rem; margin-bottom:3px;">Directive: <b>${card.pill}</b></div>
+    <div style="margin-bottom:4px;"><b>CS Concept:</b> ${card.concept}</div>
+    <div style="color:#94A3B8; font-style:italic; font-size:0.68rem;">"${card.flavor}"</div>
   `;
 }
 
@@ -1107,10 +1100,10 @@ function playerDrawClick() {
     G.playerHand.push(drawn);
     playSound('draw');
     addLog(`You drew <b>${drawn.name}</b> (${drawn.badge}) into active RAM.`, 'human');
-    updateAiPill(`"You drew <b>${drawn.name}</b>. Now deploy a card to either stack, trigger a Command, or discard."`, 'action', 'CYBER-BOT:');
+    updateAiPill(`"You drew <b>${drawn.name}</b>. Now select a card in your RAM to deploy or discard."`, 'action', 'CYBER-BOT:');
   } else {
-    addLog(`Draw deck is depleted. Deploy remaining cards from hand!`, 'system');
-    updateAiPill('"The central deck is dry! Play out your remaining RAM cards to conclude the match!"', 'attention', 'SYSTEM:');
+    addLog(`Draw deck is depleted. Play out remaining hand!`, 'system');
+    updateAiPill('"Deck depleted! Play out your cards until hand is empty!"', 'attention', 'SYSTEM:');
   }
   G.turnPhase = 'play';
   renderAll();
@@ -1121,7 +1114,7 @@ function onCardClicked(card) {
 
   if (G.turnPhase === 'draw' && G.deck.length > 0) {
     flashBanner('Click the Central Deck to draw a card first!');
-    updateAiPill('"Protocol warning: You must draw 1 packet from the Central Deck before deploying cards!"', 'attention', 'CYBER-BOT:');
+    updateAiPill('"Protocol warning: Draw 1 card from the Central Deck before playing!"', 'attention', 'CYBER-BOT:');
     return;
   }
 
@@ -1177,7 +1170,7 @@ function executeChosenPlay(action) {
     G.discard.push(card);
     playSound('discard');
     addLog(`You discarded <b>${card.name}</b> to the archive.`, 'human');
-    updateAiPill(`"You recycled <b>${card.name}</b> into the Discard Archive."`, 'action', 'CYBER-BOT:');
+    updateAiPill(`"You recycled <b>${card.name}</b> to the Discard Archive."`, 'action', 'CYBER-BOT:');
     finalizePlayerTurn();
     return;
   }
@@ -1200,7 +1193,7 @@ function executeChosenPlay(action) {
     else if (card.type === 'special') playSound('special');
     else playSound('play_glitch');
     addLog(`You deployed <b>${card.name}</b> (${card.badge}) onto your own Stack.`, 'human');
-    updateAiPill(`"You strengthened your build with <b>${card.name}</b>."`, 'action', 'CYBER-BOT:');
+    updateAiPill(`"You mounted <b>${card.name}</b> to your codebase."`, 'action', 'CYBER-BOT:');
     finalizePlayerTurn();
   } else if (action === 'opp') {
     G.playerHand.splice(cardIndex, 1);
@@ -1208,15 +1201,18 @@ function executeChosenPlay(action) {
     if (card.type === 'code') {
       playSound('play_code');
       addLog(`🔥 TACTICAL BAIT! You placed <b>${card.name}</b> (+${card.val}) onto Cyber-Bot's Stack!`, 'human');
-      updateAiPill(`"You gave me <b>${card.name}</b> (+${card.val})? Is this bait for a Copy & Paste heist?"`, 'attention', 'CYBER-BOT:');
+      updateAiPill(`"You gave me <b>${card.name}</b> (+${card.val})? Bait detected!"`, 'attention', 'CYBER-BOT:');
     } else {
       playSound('play_glitch');
       addLog(`You sabotaged Cyber-Bot with <b>${card.name}</b> (${card.badge})!`, 'human');
-      updateAiPill(`"Ouch! You dropped a <b>${card.name}</b> into my stack. Initializing bug recovery..."`, 'attention', 'CYBER-BOT:');
+      updateAiPill(`"You dropped <b>${card.name}</b> into my stack! Debugging..."`, 'attention', 'CYBER-BOT:');
     }
     finalizePlayerTurn();
   } else if (action === 'action') {
-    if (card.id === 'search_web') {
+    if (card.id === 'copy_paste') {
+      // INTERACTIVE COPY & PASTE: Let player choose which Code card from AI stack!
+      openCopyPasteModal(cardIndex);
+    } else if (card.id === 'search_web') {
       openSearchWebModal(cardIndex);
     } else {
       G.playerHand.splice(cardIndex, 1);
@@ -1224,6 +1220,43 @@ function executeChosenPlay(action) {
       finalizePlayerTurn();
     }
   }
+}
+
+// COPY & PASTE: PLAYER SURGICALLY CHOOSES EXACT CODE TO SNATCH
+function openCopyPasteModal(cardIndex) {
+  const cpCard = G.playerHand.splice(cardIndex, 1)[0];
+  G.discard.push(cpCard);
+
+  const container = document.getElementById('copyPasteList');
+  container.innerHTML = '';
+
+  const aiCodeCards = G.aiStack.filter(c => c.type === 'code');
+
+  if (aiCodeCards.length === 0) {
+    container.innerHTML = '<div style="color:var(--text-muted); font-size:0.82rem; padding:10px;">Cyber-Bot has no Code cards in its Stack to steal!</div>';
+    setTimeout(() => {
+      closeModals();
+      finalizePlayerTurn();
+    }, 1200);
+  } else {
+    aiCodeCards.forEach(c => {
+      const el = createCardElement(c);
+      el.onclick = () => {
+        const sIdx = G.aiStack.indexOf(c);
+        if (sIdx !== -1) {
+          const stolen = G.aiStack.splice(sIdx, 1)[0];
+          G.playerStack.push(stolen);
+          playSound('play_code');
+          addLog(`📋 <b>Copy & Paste!</b> You chose and snatched <b>${stolen.name}</b> (+${stolen.val}) from Cyber-Bot's stack!`, 'human');
+          updateAiPill(`"You chose to snatch my <b>${stolen.name}</b> (+${stolen.val})!"`, 'attention', 'CYBER-BOT:');
+        }
+        closeModals();
+        finalizePlayerTurn();
+      };
+      container.appendChild(el);
+    });
+  }
+  document.getElementById('modalCopyPaste').style.display = 'flex';
 }
 
 // SMART AI UNDO LOGIC
@@ -1262,7 +1295,7 @@ function evaluateAiUndoChoice(hostileCard) {
       return true;
     } else {
       addLog(`<i>Cyber-Bot decides to hold onto its resources and let your ${hostileCard.name} resolve.</i>`, 'ai');
-      updateAiPill(`"I am saving my defensive interrupt. Let your ${hostileCard.name} resolve."`, 'action', 'CYBER-BOT:');
+      updateAiPill(`"I will conserve my Undo. Let your ${hostileCard.name} resolve."`, 'action', 'CYBER-BOT:');
       return false;
     }
   }
@@ -1272,13 +1305,13 @@ function evaluateAiUndoChoice(hostileCard) {
 function openSearchWebModal(cardIndex) {
   const searchCard = G.playerHand.splice(cardIndex, 1)[0];
   G.discard.push(searchCard);
-  updateAiPill('"Searching the internet archive for deprecated and spent modules..."', 'action', 'SYSTEM:');
+  updateAiPill('"Searching the archive for deprecated and spent modules..."', 'action', 'SYSTEM:');
 
   const container = document.getElementById('searchWebList');
   container.innerHTML = '';
 
   if (G.discard.length <= 1) {
-    container.innerHTML = '<div style="color:var(--text-muted); font-size:0.85rem; padding:10px;">Discard Archive is empty!</div>';
+    container.innerHTML = '<div style="color:var(--text-muted); font-size:0.82rem; padding:10px;">Discard Archive is empty!</div>';
     setTimeout(() => {
       closeModals();
       finalizePlayerTurn();
@@ -1308,25 +1341,7 @@ function executeActionEffect(card, user) {
   G.discard.push(card);
   playSound('special');
 
-  if (card.id === 'copy_paste') {
-    const targetStack = user === 'player' ? G.aiStack : G.playerStack;
-    const destStack = user === 'player' ? G.playerStack : G.aiStack;
-    const codeIdxs = [];
-    targetStack.forEach((c, idx) => { if (c.type === 'code') codeIdxs.push(idx); });
-
-    if (codeIdxs.length > 0) {
-      codeIdxs.sort((a, b) => targetStack[b].val - targetStack[a].val);
-      const stolen = targetStack.splice(codeIdxs[0], 1)[0];
-      destStack.push(stolen);
-      playSound('play_code');
-      addLog(`📋 <b>Copy & Paste!</b> ${user === 'player' ? 'You' : 'Cyber-Bot'} snatched <b>${stolen.name}</b> (+${stolen.val}) from rival stack!`, user);
-      if (user === 'ai') {
-        updateAiPill(`"Thanks for the open-source code! I copied your <b>${stolen.name}</b> into my build."`, 'action', 'CYBER-BOT:');
-      }
-    } else {
-      addLog(`📋 Copy & Paste found no Code cards to snatch!`, user);
-    }
-  } else if (card.id === 'reboot') {
+  if (card.id === 'reboot') {
     const targetStack = user === 'player' ? G.aiStack : G.playerStack;
     if (targetStack.length > 0) {
       const trashed = targetStack.pop();
@@ -1339,6 +1354,18 @@ function executeActionEffect(card, user) {
     } else {
       addLog(`🔌 Reboot triggered on an empty stack with no effect.`, user);
     }
+  } else if (card.id === 'copy_paste' && user === 'ai') {
+    // AI chooses highest code from player stack
+    const codeIdxs = [];
+    G.playerStack.forEach((c, idx) => { if (c.type === 'code') codeIdxs.push(idx); });
+    if (codeIdxs.length > 0) {
+      codeIdxs.sort((a, b) => G.playerStack[b].val - G.playerStack[a].val);
+      const stolen = G.playerStack.splice(codeIdxs[0], 1)[0];
+      G.aiStack.push(stolen);
+      playSound('play_code');
+      addLog(`📋 <b>Copy & Paste!</b> Cyber-Bot chose and snatched <b>${stolen.name}</b> (+${stolen.val}) from your stack!`, 'ai');
+      updateAiPill(`"I chose to copy your <b>${stolen.name}</b> into my stack!"`, 'action', 'CYBER-BOT:');
+    }
   } else if (card.id === 'search_web') {
     const candidates = G.discard.filter(c => c.type === 'code' || c.type === 'special');
     if (candidates.length > 0) {
@@ -1348,16 +1375,17 @@ function executeActionEffect(card, user) {
       G.discard.splice(dIdx, 1);
       G.aiHand.push(retrieved);
       addLog(`🌐 <b>Search the Web!</b> Cyber-Bot retrieved <b>${retrieved.name}</b> from the archive into hand!`, user);
-      updateAiPill(`"I found a working snippet in the archive: <b>${retrieved.name}</b> added to my RAM!"`, 'action', 'CYBER-BOT:');
+      updateAiPill(`"I found <b>${retrieved.name}</b> in the archive and added it to my RAM!"`, 'action', 'CYBER-BOT:');
     }
   } else if (card.id === 'brainstorm') {
+    // Secret exchange: each player passes 1 card from hand
     if (G.playerHand.length > 0 && G.aiHand.length > 0) {
       const pCard = G.playerHand.pop();
       const aiCard = G.aiHand.pop();
       G.playerHand.push(aiCard);
       G.aiHand.push(pCard);
-      addLog(`🤝 <b>Team Brainstorm!</b> 1 secret card was exchanged between hands!`, 'system');
-      updateAiPill('"Peer review in progress! We exchanged secret cards between our hands."', 'action', 'TEAM:');
+      addLog(`🤝 <b>Team Brainstorm!</b> You and Cyber-Bot secretly exchanged 1 card from hand!`, 'system');
+      updateAiPill('"Peer review complete! We exchanged secret cards between our hands."', 'action', 'TEAM:');
     }
   }
 }
@@ -1366,6 +1394,7 @@ function finalizePlayerTurn() {
   cancelSelection();
   renderAll();
 
+  // CHECK NEW END CONDITION: "the game ends when any player runs out of cards"
   if (checkGameOverCondition()) return;
 
   G.turn = 'ai';
@@ -1373,7 +1402,7 @@ function finalizePlayerTurn() {
   renderAll();
 
   updateAiPill('"Analyzing codebase state... Evaluating optimization vectors..."', 'thinking', 'CYBER-BOT:');
-  setTimeout(runAiTurn, 1100);
+  setTimeout(runAiTurn, 1000);
 }
 
 function runAiTurn() {
@@ -1395,7 +1424,7 @@ function runAiTurn() {
 
   setTimeout(() => {
     makeAiDecision();
-  }, 900);
+  }, 800);
 }
 
 function makeAiDecision() {
@@ -1581,6 +1610,7 @@ function endAiTurn() {
   G.turnCount++;
   renderAll();
 
+  // CHECK NEW END CONDITION: "the game ends when any player runs out of cards"
   if (checkGameOverCondition()) return;
 
   G.turn = 'player';
@@ -1591,11 +1621,12 @@ function endAiTurn() {
     if (!G.gameOver && G.turn === 'player' && G.turnPhase === 'draw') {
       updateAiPill('"Your turn! Click the Central Deck to draw 1 card into your RAM."', 'action', 'CYBER-BOT:');
     }
-  }, 1200);
+  }, 1000);
 }
 
+// GAME END CONDITION: The game ends immediately when ANY player runs out of cards in their hand!
 function checkGameOverCondition() {
-  if (G.deck.length === 0 && G.playerHand.length === 0 && G.aiHand.length === 0) {
+  if (G.playerHand.length === 0 || G.aiHand.length === 0) {
     triggerGameOver();
     return true;
   }
@@ -1613,57 +1644,58 @@ function triggerGameOver() {
   const title = document.getElementById('gameOverTitle');
   const desc = document.getElementById('gameOverDesc');
 
+  let reason = G.playerHand.length === 0 ? "You ran out of cards in hand!" : "Cyber-Bot ran out of cards in hand!";
+
   if (pFinal > aFinal) {
     title.innerText = '🏆 VICTORY: BUILD COMPILED!';
     title.style.color = '#38BDF8';
-    desc.innerText = 'You outperformed Cyber-Bot with an optimized codebase!';
-    updateAiPill('"Match Complete! You compiled a superior codebase and achieved victory!"', 'action', 'VICTORY:');
+    desc.innerText = `${reason} Final scores compiled from tabletop stacks. You win!`;
+    updateAiPill('"Match Complete! A player ran out of cards and your build scored higher!"', 'action', 'VICTORY:');
     playSound('special');
   } else if (aFinal > pFinal) {
-    title.innerText = '💀 DEFEAT: RUNTIME EXCEPTION';
+    title.innerText = '💀 DEFEAT: RUNTIME MELTDOWN';
     title.style.color = '#EF4444';
-    desc.innerText = 'Cyber-Bot compiled a higher-scoring build. Time to refactor!';
-    updateAiPill('"Match Complete! Cyber-Bot compiled a higher score. Better luck next sprint!"', 'attention', 'MELTDOWN:');
+    desc.innerText = `${reason} Final scores compiled from tabletop stacks. Cyber-Bot wins!`;
+    updateAiPill('"Match Complete! A player ran out of cards and Cyber-Bot scored higher!"', 'attention', 'MELTDOWN:');
     playSound('play_glitch');
   } else {
     title.innerText = '🤝 STALEMATE: CODE PARITY';
     title.style.color = '#F59E0B';
-    desc.innerText = 'Both stacks compiled to the exact same score!';
+    desc.innerText = `${reason} Both stacks compiled to the exact same score!`;
     updateAiPill('"Match Complete! Both codebases reached exact score parity!"', 'thinking', 'PARITY:');
     playSound('play_code');
   }
 
   document.getElementById('gameOverBreakdown').innerHTML = `
-    <b>Tabletop Audit:</b><br>
-    Your Stack: ${G.playerStack.length} cards compiled.<br>
-    AI Stack: ${G.aiStack.length} cards compiled.<br>
+    <b>Final Tabletop Audit:</b><br>
+    Your Tabletop Stack: ${G.playerStack.length} cards (${pFinal} pts)<br>
+    AI Tabletop Stack: ${G.aiStack.length} cards (${aFinal} pts)<br>
     Discard Archive: ${G.discard.length} cards recycled.
   `;
 
   document.getElementById('modalGameOver').style.display = 'flex';
 }
 
-// Walkthrough Steps
 const WALKTHROUGH = [
   {
-    title: "1. The 5-Card Private RAM vs. Public Stack",
-    text: "You and Cyber-Bot each start with exactly <b>5 cards in hand</b>. Your hand is private (Cyber-Bot can't see your cards, and you only see silhouettes of theirs). <b>Cards in hand score ZERO at endgame!</b> Only cards deployed to the tabletop <b>Stacks</b> count toward your final score."
+    title: "1. The Victory Condition: When a Player Runs Out of Cards",
+    text: "The duel ends <b>immediately when ANY player runs out of cards in their hand</b>! At that instant, all cards in tabletop Stacks are scored. Cards left in hand count for 0 points."
   },
   {
     title: "2. The AI Dialogue & Telemetry Pill",
-    text: "At the top of the arena is Cyber-Bot's dedicated communication pill. It glows <b>amber</b> while the AI thinks, pulses <b>cyan</b> when it's your turn, and pulses <b>intense red</b> when a hostile attack requires your immediate defensive attention!"
+    text: "At the top is Cyber-Bot's dedicated communication pill. It glows <b>amber</b> while the AI computes, pulses <b>cyan</b> when it's your turn, and pulses <b>intense red</b> when a hostile attack demands your immediate attention!"
   },
   {
-    title: "3. Strategic Reactions: The Undo Decision Prompt",
-    text: "Holding an <b>Undo! (Ctrl + Z)</b> gives you tactical control! If Cyber-Bot attacks with a glitch or steals your code, the game <b>pauses and asks</b> if you want to use your Undo or save it for a deadlier attack later. Cyber-Bot also thinks twice and won't waste its Undo on minor glitches!"
+    title: "3. Copy & Paste: YOU Choose What to Steal",
+    text: "When you play <b>Copy & Paste</b>, an interactive picker lets YOU choose the exact Code Card (+) you want from Cyber-Bot's visible tabletop stack to transfer into yours!"
   },
   {
-    title: "4. 'Play on Any Stack' (Strategic Bait)",
-    text: "Both Code (+) and Glitches (-) can be placed on <b>YOUR</b> stack or <b>CYBER-BOT'S</b> stack! Drop a -4 Total Crash on the AI to sabotage their build, or drop a +5 Fast Search onto the AI to bait them into feeling secure—then steal it back with <b>Copy & Paste</b>!"
+    title: "4. Strategic Reactions: The Undo Decision Prompt",
+    text: "Holding an <b>Undo! (Ctrl + Z)</b> pauses the action when Cyber-Bot attacks. You can choose to spend your Undo now or save it for later. Cyber-Bot also conserves its Undos smartly!"
   },
   {
     title: "5. Always-Inspectable Discard Archive",
-    text: "Click the <b>Discard Archive</b> button next to the deck anytime to inspect every card that has been discarded or rebooted. When you play <b>Search the Web</b>, you'll choose any card from this archive to bring directly into your hand!"
+    text: "Click the <b>Discard Archive</b> button next to the deck anytime to inspect every spent card. When you play <b>Search the Web</b>, you choose any card from this archive into your hand!"
   }
 ];
 
@@ -1676,7 +1708,7 @@ function startWalkthrough() {
 function showWalkthroughStep() {
   const step = WALKTHROUGH[wtIndex];
   document.getElementById('walkthroughContent').innerHTML = `
-    <h3 style="color:#38BDF8; margin-bottom:8px;">${step.title}</h3>
+    <h3 style="color:#38BDF8; margin-bottom:6px;">${step.title}</h3>
     <p>${step.text}</p>
   `;
   document.getElementById('wtPrevBtn').disabled = (wtIndex === 0);
@@ -1723,7 +1755,7 @@ function openDiscardViewer() {
   const list = document.getElementById('discardList');
   list.innerHTML = '';
   if (G.discard.length === 0) {
-    list.innerHTML = '<div style="color:var(--text-muted); font-size:0.85rem; padding:10px;">The discard archive is currently empty.</div>';
+    list.innerHTML = '<div style="color:var(--text-muted); font-size:0.8rem; padding:8px;">The discard archive is currently empty.</div>';
   } else {
     G.discard.forEach(c => {
       const el = createCardElement(c);
