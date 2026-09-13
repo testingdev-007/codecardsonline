@@ -32,12 +32,12 @@
     overflow-x: hidden;
   }
 
-  /* Header */
+  /* Top Navigation Header */
   header {
-    background: rgba(7, 11, 20, 0.92);
+    background: rgba(7, 11, 20, 0.94);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--panel-border);
-    padding: 10px 20px;
+    padding: 8px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -63,9 +63,109 @@
   .btn:hover { background: #334155; border-color: var(--accent-blue); transform: translateY(-1px); }
   .btn-primary { background: #2563EB; border-color: #3B82F6; }
   .btn-primary:hover { background: #1D4ED8; }
+  .btn-danger { background: #DC2626; border-color: #EF4444; color: #FFF; }
+  .btn-danger:hover { background: #B91C1C; }
   .btn-gold { background: #D97706; border-color: #F59E0B; color: #FFF; }
   .btn-gold:hover { background: #B45309; }
-  .toggle-audio { background: #0F172A; border-color: #475569; font-size: 0.85rem; padding: 5px 10px; }
+  .toggle-audio { background: #0F172A; border-color: #475569; font-size: 0.82rem; padding: 5px 10px; }
+
+  /* DEDICATED AI CHAT & STATUS CAPSULE (THE TOP PILL) */
+  .ai-pill-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 16px 0 16px;
+    width: 100%;
+    max-width: 1460px;
+    margin: 0 auto;
+  }
+  .ai-chat-pill {
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid #334155;
+    border-radius: 50px;
+    padding: 7px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.84rem;
+    color: #E2E8F0;
+    max-width: 960px;
+    width: 100%;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #06B6D4;
+    box-shadow: 0 0 8px #06B6D4;
+    flex-shrink: 0;
+    transition: all 0.3s;
+  }
+  .ai-pill-label {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: #38BDF8;
+    white-space: nowrap;
+  }
+  .ai-pill-text {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.83rem;
+  }
+
+  /* Glowing attention states for the Pill */
+  .ai-chat-pill.glow-attention {
+    border-color: #EF4444;
+    background: rgba(45, 15, 25, 0.92);
+    box-shadow: 0 0 24px rgba(239, 68, 68, 0.65), inset 0 0 12px rgba(239, 68, 68, 0.25);
+    animation: pillPulseRed 1.2s infinite alternate;
+  }
+  .ai-chat-pill.glow-attention .status-dot {
+    background: #EF4444;
+    box-shadow: 0 0 12px #EF4444;
+  }
+  .ai-chat-pill.glow-attention .ai-pill-label {
+    color: #F87171;
+  }
+
+  .ai-chat-pill.glow-thinking {
+    border-color: #F59E0B;
+    background: rgba(30, 25, 15, 0.9);
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+    animation: pillPulseAmber 1.4s infinite alternate;
+  }
+  .ai-chat-pill.glow-thinking .status-dot {
+    background: #F59E0B;
+    box-shadow: 0 0 10px #F59E0B;
+  }
+  .ai-chat-pill.glow-thinking .ai-pill-label {
+    color: #FBBF24;
+  }
+
+  .ai-chat-pill.glow-action {
+    border-color: #38BDF8;
+    background: rgba(15, 30, 45, 0.9);
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.45);
+  }
+  .ai-chat-pill.glow-action .status-dot {
+    background: #38BDF8;
+    box-shadow: 0 0 10px #38BDF8;
+  }
+
+  @keyframes pillPulseRed {
+    0% { transform: scale(1); box-shadow: 0 0 16px rgba(239, 68, 68, 0.4); }
+    100% { transform: scale(1.015); box-shadow: 0 0 28px rgba(239, 68, 68, 0.85); }
+  }
+  @keyframes pillPulseAmber {
+    0% { transform: scale(1); box-shadow: 0 0 12px rgba(245, 158, 11, 0.3); }
+    100% { transform: scale(1.01); box-shadow: 0 0 22px rgba(245, 158, 11, 0.65); }
+  }
 
   /* Main Grid */
   main {
@@ -73,7 +173,7 @@
     display: grid;
     grid-template-columns: 270px 1fr 280px;
     gap: 16px;
-    padding: 16px;
+    padding: 12px 16px 16px 16px;
     max-width: 1460px;
     margin: 0 auto;
     width: 100%;
@@ -106,7 +206,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 14px;
+    gap: 12px;
   }
 
   /* Rigs */
@@ -232,7 +332,7 @@
 
   .turn-announcer { text-align: center; display: flex; flex-direction: column; gap: 2px; }
   .turn-tag { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
-  .turn-title { font-size: 1.1rem; font-weight: 800; color: #38BDF8; }
+  .turn-title { font-size: 1.05rem; font-weight: 800; color: #38BDF8; }
 
   /* Player Hand Zone */
   .hand-zone {
@@ -353,7 +453,6 @@
   }
   @keyframes alertPop { 0% { transform: translate(-50%, -20px); opacity: 0; } 100% { transform: translate(-50%, 0); opacity: 1; } }
 
-  /* Search The Web Selection View */
   .picker-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(124px, 1fr));
@@ -361,6 +460,20 @@
     max-height: 380px;
     overflow-y: auto;
     padding: 6px;
+  }
+
+  /* Interactive Undo Prompt Callout */
+  .undo-callout-box {
+    background: #131B2E;
+    border: 2px solid #EF4444;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(239, 68, 68, 0.25);
   }
 </style>
 </head>
@@ -371,7 +484,7 @@
     <span class="code">{ CODING</span>
     <span>vs.</span>
     <span class="bug">BUGS }</span>
-    <small style="color:var(--text-muted); font-size:0.75rem; font-weight:normal; margin-left:6px;">Duel Arena v6.2</small>
+    <small style="color:var(--text-muted); font-size:0.75rem; font-weight:normal; margin-left:6px;">Duel Arena v6.4</small>
   </div>
   <div class="btn-group">
     <button id="soundToggleBtn" class="btn toggle-audio" onclick="toggleSound()">🔊 Sound: ON</button>
@@ -382,6 +495,15 @@
   </div>
 </header>
 
+<!-- TOP DEDICATED AI CHAT & TELEMETRY PILL -->
+<div class="ai-pill-bar">
+  <div id="aiChatPill" class="ai-chat-pill glow-action" title="Live Cyber-Bot Telemetry & Explanation">
+    <div id="aiStatusDot" class="status-dot"></div>
+    <span id="aiPillLabel" class="ai-pill-label">CYBER-BOT:</span>
+    <span id="aiPillText" class="ai-pill-text">"System online. 54 CS cards loaded. Draw 1 card from the Central Deck to begin Sprint 1!"</span>
+  </div>
+</div>
+
 <div id="flashBanner" class="flash-banner"></div>
 
 <main>
@@ -390,9 +512,9 @@
     <div class="panel-title"><span>System Telemetry</span> <span>⚡</span></div>
     <div style="font-size:0.78rem; line-height:1.4; color:var(--text-muted);">
       <div><b>Memory Model:</b> Hand (RAM) vs Stack (Build)</div>
-      <div><b>Starting Hand:</b> 5 Cards Each (Verified)</div>
+      <div><b>Starting Hand:</b> 5 Cards Each</div>
       <div><b>Deck:</b> 54 Cards (31 Unique Concepts)</div>
-      <div><b>Discard Archive:</b> Always Inspectable</div>
+      <div><b>Undo Rule:</b> Always Prompts User Choice</div>
     </div>
     
     <div class="panel-title" style="margin-top:10px;"><span>Active Card Inspector</span> <span>🔍</span></div>
@@ -507,6 +629,31 @@
 
 <!-- MODALS -->
 
+<!-- Interactive Player Undo Prompt Modal -->
+<div id="modalUndoPrompt" class="modal-overlay" style="display:none;">
+  <div class="modal" style="max-width:540px;">
+    <div class="undo-callout-box">
+      <div style="font-size:2.4rem;">⚠️🛡️</div>
+      <h2 style="color:#EF4444; margin:0;">HOSTILE MOVE DETECTED!</h2>
+      <p id="undoPromptDesc" style="color:#F8FAFC; font-size:0.95rem; line-height:1.4;">
+        Cyber-Bot is attacking with a card!
+      </p>
+      <div id="undoPromptCardPreview" style="margin:6px 0;"></div>
+      <p style="font-size:0.82rem; color:var(--text-muted);">
+        You hold <b>Undo! (Ctrl + Z)</b> in your Hand. Would you like to use it now to cancel and discard this attack, or save your Undo for later?
+      </p>
+      <div style="display:flex; gap:12px; width:100%; justify-content:center; margin-top:6px;">
+        <button class="btn btn-danger" style="padding:10px 18px; font-size:0.9rem;" onclick="playerDecideUndo(true)">
+          🛡️ Use Undo! (Ctrl + Z)
+        </button>
+        <button class="btn" style="padding:10px 18px; font-size:0.9rem;" onclick="playerDecideUndo(false)">
+          Let It Pass (Save Undo)
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Quick Start Rules -->
 <div id="modalQuickstart" class="modal-overlay" style="display:none;">
   <div class="modal">
@@ -531,8 +678,8 @@
     </div>
 
     <div class="modal-section">
-      <h4>4. Instant Reactions (Undo!)</h4>
-      <p>An <b>Undo! (Ctrl + Z)</b> in your hand can instantly react out-of-turn to cancel hostile Glitches or Commands!</p>
+      <h4>4. Strategic Reactions (Undo! Prompt)</h4>
+      <p>Holding an <b>Undo! (Ctrl + Z)</b> gives you a strategic choice! Whenever Cyber-Bot plays a hostile Glitch or Command against you, the game asks if you want to expend your Undo or save it for a deadlier attack later.</p>
     </div>
 
     <button class="btn btn-primary" onclick="closeModals()">Got It — Let's Code!</button>
@@ -627,7 +774,7 @@
 </div>
 
 <script>
-// --- AUDIO SYNTHESIS ENGINE (Web Audio API - No External Assets Needed) ---
+// --- AUDIO SYNTHESIS ENGINE (Web Audio API) ---
 let audioCtx = null;
 let soundEnabled = true;
 
@@ -754,8 +901,28 @@ let G = {
   turnPhase: 'draw',
   selectedCardUid: null,
   gameOver: false,
-  turnCount: 1
+  turnCount: 1,
+  pendingAiAction: null
 };
+
+// HELPER: Update the Dedicated AI Top Pill State
+function updateAiPill(text, state = 'idle', speaker = 'CYBER-BOT:') {
+  const pill = document.getElementById('aiChatPill');
+  const label = document.getElementById('aiPillLabel');
+  const body = document.getElementById('aiPillText');
+
+  pill.className = 'ai-chat-pill'; // Reset classes
+  label.innerText = speaker;
+  body.innerHTML = text;
+
+  if (state === 'attention') {
+    pill.classList.add('glow-attention');
+  } else if (state === 'thinking') {
+    pill.classList.add('glow-thinking');
+  } else if (state === 'action') {
+    pill.classList.add('glow-action');
+  }
+}
 
 function initNewGame() {
   closeModals();
@@ -776,6 +943,7 @@ function initNewGame() {
   G.selectedCardUid = null;
   G.gameOver = false;
   G.turnCount = 1;
+  G.pendingAiAction = null;
 
   // STRICT 5-CARD STARTING HANDS
   for (let i = 0; i < 5; i++) {
@@ -786,6 +954,7 @@ function initNewGame() {
   document.getElementById('logStream').innerHTML = '';
   addLog('Duel initialized. Deck loaded with 54 CS cards. 5 cards dealt to active RAM each.', 'system');
   addLog('Turn 1: Click the central deck to draw a card into your hand.', 'human');
+  updateAiPill('"System online. 5 cards loaded in your RAM. Click the Central Deck to draw your turn card!"', 'action', 'CYBER-BOT:');
   playSound('special');
   renderAll();
 }
@@ -819,7 +988,6 @@ function renderAll() {
   document.getElementById('discardCount').innerText = `${G.discard.length} Cards`;
   document.getElementById('handCountStatus').innerText = `${G.playerHand.length} Cards in RAM`;
 
-  // Render AI Hand Cards Silhouette
   const aiRack = document.getElementById('aiHandCards');
   aiRack.innerHTML = '';
   for (let i = 0; i < G.aiHand.length; i++) {
@@ -940,8 +1108,10 @@ function playerDrawClick() {
     G.playerHand.push(drawn);
     playSound('draw');
     addLog(`You drew <b>${drawn.name}</b> (${drawn.badge}) into active RAM.`, 'human');
+    updateAiPill(`"You drew <b>${drawn.name}</b>. Now deploy a card to either stack, trigger a Command, or discard."`, 'action', 'CYBER-BOT:');
   } else {
     addLog(`Draw deck is depleted. Deploy remaining cards from hand!`, 'system');
+    updateAiPill('"The central deck is dry! Play out your remaining RAM cards to conclude the match!"', 'attention', 'SYSTEM:');
   }
   G.turnPhase = 'play';
   renderAll();
@@ -952,6 +1122,7 @@ function onCardClicked(card) {
 
   if (G.turnPhase === 'draw' && G.deck.length > 0) {
     flashBanner('Click the Central Deck to draw a card first!');
+    updateAiPill('"Protocol warning: You must draw 1 packet from the Central Deck before deploying cards!"', 'attention', 'CYBER-BOT:');
     return;
   }
 
@@ -959,6 +1130,7 @@ function onCardClicked(card) {
   inspectCard(card);
   showActionButtons(card);
   renderHand();
+  updateAiPill(`"Card selected: <b>${card.name}</b> (${card.badge}). Choose destination below."`, 'action', 'RUNTIME:');
 }
 
 function showActionButtons(card) {
@@ -1006,23 +1178,22 @@ function executeChosenPlay(action) {
     G.discard.push(card);
     playSound('discard');
     addLog(`You discarded <b>${card.name}</b> to the archive.`, 'human');
+    updateAiPill(`"You recycled <b>${card.name}</b> into the Discard Archive."`, 'action', 'CYBER-BOT:');
     finalizePlayerTurn();
     return;
   }
 
-  // Intercept hostile action with AI Undo check
   let isHostile = false;
   if (action === 'opp' && card.type === 'glitch') isHostile = true;
   if (card.id === 'copy_paste' || card.id === 'reboot') isHostile = true;
 
-  if (isHostile && attemptAiUndo(card)) {
+  if (isHostile && evaluateAiUndoChoice(card)) {
     G.playerHand.splice(cardIndex, 1);
     G.discard.push(card);
     finalizePlayerTurn();
     return;
   }
 
-  // Execute plays
   if (action === 'self') {
     G.playerHand.splice(cardIndex, 1);
     G.playerStack.push(card);
@@ -1030,6 +1201,7 @@ function executeChosenPlay(action) {
     else if (card.type === 'special') playSound('special');
     else playSound('play_glitch');
     addLog(`You deployed <b>${card.name}</b> (${card.badge}) onto your own Stack.`, 'human');
+    updateAiPill(`"You strengthened your build with <b>${card.name}</b>."`, 'action', 'CYBER-BOT:');
     finalizePlayerTurn();
   } else if (action === 'opp') {
     G.playerHand.splice(cardIndex, 1);
@@ -1037,14 +1209,15 @@ function executeChosenPlay(action) {
     if (card.type === 'code') {
       playSound('play_code');
       addLog(`🔥 TACTICAL BAIT! You placed <b>${card.name}</b> (+${card.val}) onto Cyber-Bot's Stack!`, 'human');
+      updateAiPill(`"You gave me <b>${card.name}</b> (+${card.val})? Is this bait for a Copy & Paste heist?"`, 'attention', 'CYBER-BOT:');
     } else {
       playSound('play_glitch');
       addLog(`You sabotaged Cyber-Bot with <b>${card.name}</b> (${card.badge})!`, 'human');
+      updateAiPill(`"Ouch! You dropped a <b>${card.name}</b> into my stack. Initializing bug recovery..."`, 'attention', 'CYBER-BOT:');
     }
     finalizePlayerTurn();
   } else if (action === 'action') {
     if (card.id === 'search_web') {
-      // Open interactive picker modal for Search the Web
       openSearchWebModal(cardIndex);
     } else {
       G.playerHand.splice(cardIndex, 1);
@@ -1054,15 +1227,45 @@ function executeChosenPlay(action) {
   }
 }
 
-function attemptAiUndo(hostileCard) {
+// SMART AI UNDO LOGIC
+function evaluateAiUndoChoice(hostileCard) {
   const undoIdx = G.aiHand.findIndex(c => c.id === 'undo');
   if (undoIdx !== -1) {
-    const undoCard = G.aiHand.splice(undoIdx, 1)[0];
-    G.discard.push(undoCard);
-    playSound('undo');
-    flashBanner("⚡ CYBER-BOT PLAYED UNDO! (Ctrl + Z)");
-    addLog(`⚡ <b>CYBER-BOT INTERRUPT!</b> Cyber-Bot deployed <b>Undo! (Ctrl + Z)</b> to cancel your ${hostileCard.name}!`, 'undo');
-    return true;
+    let shouldUndo = false;
+
+    if (hostileCard.id === 'crash') {
+      shouldUndo = true;
+    } else if (hostileCard.id === 'frozen') {
+      const aiHasFeature = G.aiStack.some(c => c.id === 'feature');
+      if (!aiHasFeature) shouldUndo = true;
+    } else if (hostileCard.id === 'copy_paste') {
+      const highestAiCode = G.aiStack.filter(c => c.type === 'code').map(c => c.val).sort((a,b)=>b-a)[0] || 0;
+      if (highestAiCode >= 4) shouldUndo = true;
+    } else if (hostileCard.id === 'reboot') {
+      if (G.aiStack.length > 0) {
+        const topCard = G.aiStack[G.aiStack.length - 1];
+        if (topCard.id === 'overclock' || topCard.val >= 4) shouldUndo = true;
+      }
+    } else if (hostileCard.type === 'glitch') {
+      const undoCount = G.aiHand.filter(c => c.id === 'undo').length;
+      if (undoCount >= 2 || G.deck.length < 6) {
+        shouldUndo = true;
+      }
+    }
+
+    if (shouldUndo) {
+      const undoCard = G.aiHand.splice(undoIdx, 1)[0];
+      G.discard.push(undoCard);
+      playSound('undo');
+      flashBanner("⚡ CYBER-BOT PLAYED UNDO! (Ctrl + Z)");
+      addLog(`⚡ <b>CYBER-BOT INTERRUPT!</b> Cyber-Bot deployed <b>Undo! (Ctrl + Z)</b> to cancel your ${hostileCard.name}!`, 'undo');
+      updateAiPill(`"Access Denied! I used <b>Undo! (Ctrl + Z)</b> to vaporize your ${hostileCard.name}!"`, 'attention', 'CYBER-BOT:');
+      return true;
+    } else {
+      addLog(`<i>Cyber-Bot decides to hold onto its resources and let your ${hostileCard.name} resolve.</i>`, 'ai');
+      updateAiPill(`"I am saving my defensive interrupt. Let your ${hostileCard.name} resolve."`, 'action', 'CYBER-BOT:');
+      return false;
+    }
   }
   return false;
 }
@@ -1070,6 +1273,7 @@ function attemptAiUndo(hostileCard) {
 function openSearchWebModal(cardIndex) {
   const searchCard = G.playerHand.splice(cardIndex, 1)[0];
   G.discard.push(searchCard);
+  updateAiPill('"Searching the internet archive for deprecated and spent modules..."', 'action', 'SYSTEM:');
 
   const container = document.getElementById('searchWebList');
   container.innerHTML = '';
@@ -1081,7 +1285,6 @@ function openSearchWebModal(cardIndex) {
       finalizePlayerTurn();
     }, 1200);
   } else {
-    // Show cards excluding the Search the Web card just played
     G.discard.slice(0, -1).forEach(c => {
       const el = createCardElement(c);
       el.onclick = () => {
@@ -1091,6 +1294,7 @@ function openSearchWebModal(cardIndex) {
           G.playerHand.push(c);
           playSound('draw');
           addLog(`🌐 <b>Search the Web!</b> You retrieved <b>${c.name}</b> from the archive into your hand!`, 'human');
+          updateAiPill(`"You pulled <b>${c.name}</b> out of the Discard Archive into your hand."`, 'action', 'CYBER-BOT:');
         }
         closeModals();
         finalizePlayerTurn();
@@ -1117,6 +1321,9 @@ function executeActionEffect(card, user) {
       destStack.push(stolen);
       playSound('play_code');
       addLog(`📋 <b>Copy & Paste!</b> ${user === 'player' ? 'You' : 'Cyber-Bot'} snatched <b>${stolen.name}</b> (+${stolen.val}) from rival stack!`, user);
+      if (user === 'ai') {
+        updateAiPill(`"Thanks for the open-source code! I copied your <b>${stolen.name}</b> into my build."`, 'action', 'CYBER-BOT:');
+      }
     } else {
       addLog(`📋 Copy & Paste found no Code cards to snatch!`, user);
     }
@@ -1127,11 +1334,13 @@ function executeActionEffect(card, user) {
       G.discard.push(trashed);
       playSound('discard');
       addLog(`🔌 <b>Reboot!</b> The top card (<b>${trashed.name}</b>) was vaporized from the target stack!`, user);
+      if (user === 'ai') {
+        updateAiPill(`"I power-cycled your stack and vaporized your <b>${trashed.name}</b>!"`, 'attention', 'CYBER-BOT:');
+      }
     } else {
       addLog(`🔌 Reboot triggered on an empty stack with no effect.`, user);
     }
   } else if (card.id === 'search_web') {
-    // AI Search Web execution
     const candidates = G.discard.filter(c => c.type === 'code' || c.type === 'special');
     if (candidates.length > 0) {
       candidates.sort((a, b) => (b.val || 10) - (a.val || 10));
@@ -1140,6 +1349,7 @@ function executeActionEffect(card, user) {
       G.discard.splice(dIdx, 1);
       G.aiHand.push(retrieved);
       addLog(`🌐 <b>Search the Web!</b> Cyber-Bot retrieved <b>${retrieved.name}</b> from the archive into hand!`, user);
+      updateAiPill(`"I found a working snippet in the archive: <b>${retrieved.name}</b> added to my RAM!"`, 'action', 'CYBER-BOT:');
     }
   } else if (card.id === 'brainstorm') {
     if (G.playerHand.length > 0 && G.aiHand.length > 0) {
@@ -1148,6 +1358,7 @@ function executeActionEffect(card, user) {
       G.playerHand.push(aiCard);
       G.aiHand.push(pCard);
       addLog(`🤝 <b>Team Brainstorm!</b> 1 secret card was exchanged between hands!`, 'system');
+      updateAiPill('"Peer review in progress! We exchanged secret cards between our hands."', 'action', 'TEAM:');
     }
   }
 }
@@ -1162,7 +1373,8 @@ function finalizePlayerTurn() {
   G.turnPhase = 'draw';
   renderAll();
 
-  setTimeout(runAiTurn, 1000);
+  updateAiPill('"Analyzing codebase state... Evaluating optimization vectors..."', 'thinking', 'CYBER-BOT:');
+  setTimeout(runAiTurn, 1100);
 }
 
 function runAiTurn() {
@@ -1184,7 +1396,7 @@ function runAiTurn() {
 
   setTimeout(() => {
     makeAiDecision();
-  }, 800);
+  }, 900);
 }
 
 function makeAiDecision() {
@@ -1257,34 +1469,85 @@ function makeAiDecision() {
     actionType = 'discard';
   }
 
-  // Check Player Undo
   let isHostile = false;
   if (target === 'opp' && chosen.type === 'glitch') isHostile = true;
   if (chosen.id === 'copy_paste' || (chosen.id === 'reboot' && actionType === 'action')) isHostile = true;
 
-  if (isHostile) {
+  const pUndoCount = G.playerHand.filter(c => c.id === 'undo').length;
+
+  if (isHostile && pUndoCount > 0) {
+    G.pendingAiAction = { chosen, target, actionType };
+    promptPlayerForUndo(chosen, actionType);
+    return;
+  }
+
+  executeAiActionDirectly(chosen, target, actionType);
+}
+
+function promptPlayerForUndo(card, actionType) {
+  let attackDesc = "";
+  if (card.type === 'glitch') {
+    attackDesc = `Cyber-Bot is attempting to drop <b>${card.name}</b> (${card.badge}) onto YOUR Stack!`;
+  } else if (card.id === 'copy_paste') {
+    attackDesc = `Cyber-Bot is activating <b>Copy & Paste</b> to steal your highest Code card!`;
+  } else if (card.id === 'reboot') {
+    attackDesc = `Cyber-Bot is activating <b>Reboot</b> to vaporize the top card from your Stack!`;
+  }
+
+  document.getElementById('undoPromptDesc').innerHTML = attackDesc;
+  const preview = document.getElementById('undoPromptCardPreview');
+  preview.innerHTML = '';
+  preview.appendChild(createCardElement(card));
+
+  updateAiPill(`"⚠️ ATTACK INCOMING: I am playing <b>${card.name}</b>! Do you want to expend your Undo?"`, 'attention', 'ATTACK WARNING:');
+
+  playSound('undo');
+  document.getElementById('modalUndoPrompt').style.display = 'flex';
+}
+
+function playerDecideUndo(useUndo) {
+  document.getElementById('modalUndoPrompt').style.display = 'none';
+  const pending = G.pendingAiAction;
+  G.pendingAiAction = null;
+
+  if (!pending) return;
+
+  const { chosen, target, actionType } = pending;
+  const aiIdx = G.aiHand.indexOf(chosen);
+  if (aiIdx !== -1) G.aiHand.splice(aiIdx, 1);
+
+  if (useUndo) {
     const pUndoIdx = G.playerHand.findIndex(c => c.id === 'undo');
     if (pUndoIdx !== -1) {
-      const pUndo = G.playerHand.splice(pUndoIdx, 1)[0];
-      G.discard.push(pUndo);
-      const aiIdx = G.aiHand.indexOf(chosen);
-      G.aiHand.splice(aiIdx, 1);
+      const undoCard = G.playerHand.splice(pUndoIdx, 1)[0];
+      G.discard.push(undoCard);
       G.discard.push(chosen);
       playSound('undo');
-      flashBanner("🛡️ YOUR UNDO! (Ctrl + Z) DEFLECTED CYBER-BOT!");
-      addLog(`🛡️ <b>REACTION INTERRUPT!</b> Your <b>Undo! (Ctrl + Z)</b> cancelled Cyber-Bot's ${chosen.name}!`, 'undo');
+      flashBanner("🛡️ YOUR UNDO! (Ctrl + Z) CANCELLED CYBER-BOT!");
+      addLog(`🛡️ <b>REACTION INTERRUPT!</b> You chose to play <b>Undo! (Ctrl + Z)</b> to cancel Cyber-Bot's ${chosen.name}!`, 'undo');
+      updateAiPill(`"You countered with <b>Undo! (Ctrl + Z)</b>! My ${chosen.name} was rejected into Discard."`, 'action', 'CYBER-BOT:');
       endAiTurn();
       return;
     }
   }
 
-  const aiIdx = G.aiHand.indexOf(chosen);
-  G.aiHand.splice(aiIdx, 1);
+  addLog(`You chose to let Cyber-Bot's <b>${chosen.name}</b> resolve without using your Undo.`, 'human');
+  updateAiPill(`"You held onto your Undo. My <b>${chosen.name}</b> resolves successfully!"`, 'action', 'CYBER-BOT:');
+  resolveAiPlay(chosen, target, actionType);
+}
 
+function executeAiActionDirectly(chosen, target, actionType) {
+  const aiIdx = G.aiHand.indexOf(chosen);
+  if (aiIdx !== -1) G.aiHand.splice(aiIdx, 1);
+  resolveAiPlay(chosen, target, actionType);
+}
+
+function resolveAiPlay(chosen, target, actionType) {
   if (actionType === 'discard') {
     G.discard.push(chosen);
     playSound('discard');
     addLog(`Cyber-Bot recycled <b>${chosen.name}</b> to discard.`, 'ai');
+    updateAiPill(`"I recycled <b>${chosen.name}</b> into the discard archive."`, 'action', 'CYBER-BOT:');
   } else if (actionType === 'play') {
     if (target === 'self') {
       G.aiStack.push(chosen);
@@ -1292,10 +1555,12 @@ function makeAiDecision() {
       else if (chosen.type === 'special') playSound('special');
       else playSound('play_glitch');
       addLog(`Cyber-Bot mounted <b>${chosen.name}</b> (${chosen.badge}) onto its own stack.`, 'ai');
+      updateAiPill(`"I deployed <b>${chosen.name}</b> (${chosen.badge}) to optimize my codebase."`, 'action', 'CYBER-BOT:');
     } else {
       G.playerStack.push(chosen);
       playSound('play_glitch');
       addLog(`⚠️ Cyber-Bot dropped <b>${chosen.name}</b> (${chosen.badge}) onto your stack!`, 'ai');
+      updateAiPill(`"I planted <b>${chosen.name}</b> (${chosen.badge}) onto your stack. Have fun debugging that!"`, 'attention', 'CYBER-BOT:');
     }
   } else if (actionType === 'action') {
     executeActionEffect(chosen, 'ai');
@@ -1306,6 +1571,7 @@ function makeAiDecision() {
       G.discard.push(purged);
       playSound('discard');
       addLog(`Cyber-Bot rebooted its own stack to purge <b>${purged.name}</b>!`, 'ai');
+      updateAiPill(`"I rebooted my rig to purge <b>${purged.name}</b> from my stack!"`, 'action', 'CYBER-BOT:');
     }
   }
 
@@ -1321,6 +1587,12 @@ function endAiTurn() {
   G.turn = 'player';
   G.turnPhase = 'draw';
   renderAll();
+
+  setTimeout(() => {
+    if (!G.gameOver && G.turn === 'player' && G.turnPhase === 'draw') {
+      updateAiPill('"Your turn! Click the Central Deck to draw 1 card into your RAM."', 'action', 'CYBER-BOT:');
+    }
+  }, 1200);
 }
 
 function checkGameOverCondition() {
@@ -1346,16 +1618,19 @@ function triggerGameOver() {
     title.innerText = '🏆 VICTORY: BUILD COMPILED!';
     title.style.color = '#38BDF8';
     desc.innerText = 'You outperformed Cyber-Bot with an optimized codebase!';
+    updateAiPill('"Match Complete! You compiled a superior codebase and achieved victory!"', 'action', 'VICTORY:');
     playSound('special');
   } else if (aFinal > pFinal) {
     title.innerText = '💀 DEFEAT: RUNTIME EXCEPTION';
     title.style.color = '#EF4444';
     desc.innerText = 'Cyber-Bot compiled a higher-scoring build. Time to refactor!';
+    updateAiPill('"Match Complete! Cyber-Bot compiled a higher score. Better luck next sprint!"', 'attention', 'MELTDOWN:');
     playSound('play_glitch');
   } else {
     title.innerText = '🤝 STALEMATE: CODE PARITY';
     title.style.color = '#F59E0B';
     desc.innerText = 'Both stacks compiled to the exact same score!';
+    updateAiPill('"Match Complete! Both codebases reached exact score parity!"', 'thinking', 'PARITY:');
     playSound('play_code');
   }
 
@@ -1376,16 +1651,16 @@ const WALKTHROUGH = [
     text: "You and Cyber-Bot each start with exactly <b>5 cards in hand</b>. Your hand is private (Cyber-Bot can't see your cards, and you only see silhouettes of theirs). <b>Cards in hand score ZERO at endgame!</b> Only cards deployed to the tabletop <b>Stacks</b> count toward your final score."
   },
   {
-    title: "2. Turn Flow: Draw 1, Then Play 1",
-    text: "Every turn begins by clicking the <b>Central Deck</b> to draw 1 card into hand (increasing your RAM to 6 cards). Next, select a card in your hand and either play it to a Stack, execute its Command, or recycle it into the Discard Archive."
+    title: "2. The AI Dialogue & Telemetry Pill",
+    text: "At the top of the arena is Cyber-Bot's dedicated communication pill. It glows <b>amber</b> while the AI thinks, pulses <b>cyan</b> when it's your turn, and pulses <b>intense red</b> when a hostile attack requires your immediate defensive attention!"
   },
   {
-    title: "3. 'Play on Any Stack' (Strategic Bait)",
+    title: "3. Strategic Reactions: The Undo Decision Prompt",
+    text: "Holding an <b>Undo! (Ctrl + Z)</b> gives you tactical control! If Cyber-Bot attacks with a glitch or steals your code, the game <b>pauses and asks</b> if you want to use your Undo or save it for a deadlier attack later. Cyber-Bot also thinks twice and won't waste its Undo on minor glitches!"
+  },
+  {
+    title: "4. 'Play on Any Stack' (Strategic Bait)",
     text: "Both Code (+) and Glitches (-) can be placed on <b>YOUR</b> stack or <b>CYBER-BOT'S</b> stack! Drop a -4 Total Crash on the AI to sabotage their build, or drop a +5 Fast Search onto the AI to bait them into feeling secure—then steal it back with <b>Copy & Paste</b>!"
-  },
-  {
-    title: "4. The Undo Reaction (Ctrl + Z)",
-    text: "Keep an <b>Undo! (Ctrl + Z)</b> in your hand! If Cyber-Bot attempts a hostile move (like dropping a glitch or stealing your code), your Undo automatically interrupts and cancels their attack!"
   },
   {
     title: "5. Always-Inspectable Discard Archive",
