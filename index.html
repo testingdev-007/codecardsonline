@@ -966,6 +966,30 @@
   </div>
 </div>
 
+
+<!-- Interactive Reboot Target Selection Modal -->
+<div id="modalRebootTarget" class="modal-overlay" style="display:none;">
+  <div class="modal" style="max-width:520px; text-align:center;">
+    <h2>🔌 Reboot: Choose Target Stack</h2>
+    <p style="font-size:0.86rem; color:#CBD5E1; margin-bottom:8px;">
+      Power cycle a system to discard the <b>top-most card</b>. Which stack do you want to Reboot?
+    </p>
+    <div style="display:flex; gap:12px; justify-content:center; margin:10px 0; flex-wrap:wrap;">
+      <button class="target-btn" onclick="executeRebootTarget('self')">
+        <span style="font-size:1.5rem;">👨‍💻</span>
+        <span>Reboot My Stack</span>
+        <small id="rebootSelfTopText" style="color:var(--text-muted); font-size:0.75rem;">Top: Empty</small>
+      </button>
+      <button class="target-btn" style="border-color:#EF4444;" onclick="executeRebootTarget('opp')">
+        <span style="font-size:1.5rem;">🤖</span>
+        <span>Reboot AI's Stack</span>
+        <small id="rebootAiTopText" style="color:var(--text-muted); font-size:0.75rem;">Top: Empty</small>
+      </button>
+    </div>
+    <button class="btn" onclick="closeModals()">Cancel</button>
+  </div>
+</div>
+
 <!-- Interactive Search the Web Modal -->
 <div id="modalSearchWeb" class="modal-overlay" style="display:none;">
   <div class="modal" style="max-width:680px;">
@@ -1771,7 +1795,7 @@ function executeChosenPlay(action) {
 
   let isHostile = false;
   if (action === 'opp' && card.type === 'glitch') isHostile = true;
-  if (card.id === 'copy_paste' || card.id === 'reboot') isHostile = true;
+  if (card.id === 'copy_paste') isHostile = true;
 
   if (isHostile && evaluateAiUndoChoice(card)) {
     G.playerHand.splice(cardIndex, 1);
@@ -1804,8 +1828,9 @@ function executeChosenPlay(action) {
     finalizePlayerTurn();
   } else if (action === 'action') {
     if (card.id === 'copy_paste') {
-      // INTERACTIVE COPY & PASTE: Let player choose which Code card from AI stack!
       openCopyPasteModal(cardIndex);
+    } else if (card.id === 'reboot') {
+      openRebootModal(cardIndex);
     } else if (card.id === 'search_web') {
       openSearchWebModal(cardIndex);
     } else {
@@ -1817,6 +1842,62 @@ function executeChosenPlay(action) {
 }
 
 // COPY & PASTE: PLAYER SURGICALLY CHOOSES EXACT CODE TO SNATCH
+
+// --- INTERACTIVE REBOOT MODAL (CHOOSE TARGET STACK) ---
+let pendingRebootCard = null;
+
+function openRebootModal(cardIndex) {
+  pendingRebootCard = G.playerHand.splice(cardIndex, 1)[0];
+
+  const selfTop = G.playerStack.length > 0 ? G.playerStack[G.playerStack.length - 1] : null;
+  const aiTop = G.aiStack.length > 0 ? G.aiStack[G.aiStack.length - 1] : null;
+
+  document.getElementById('rebootSelfTopText').innerText = selfTop ? `Top: ${selfTop.name} (${selfTop.badge})` : 'Top: Empty';
+  document.getElementById('rebootAiTopText').innerText = aiTop ? `Top: ${aiTop.name} (${aiTop.badge})` : 'Top: Empty';
+
+  document.getElementById('modalRebootTarget').style.display = 'flex';
+}
+
+function executeRebootTarget(target) {
+  closeModals();
+  const card = pendingRebootCard;
+  pendingRebootCard = null;
+  if (!card) return;
+
+  G.discard.push(card);
+
+  if (target === 'self') {
+    // Player cleans their own stack
+    if (G.playerStack.length > 0) {
+      const purged = G.playerStack.pop();
+      G.discard.push(purged);
+      playSound('discard');
+      addLog(`🔌 <b>Reboot!</b> You rebooted your own stack to vaporize <b>${purged.name}</b> (${purged.badge})!`, 'human');
+      updateAiPill(`"You rebooted your own codebase and purged <b>${purged.name}</b>."`, 'action', 'CYBER-BOT:');
+    } else {
+      addLog(`🔌 You rebooted your stack, but it was already empty.`, 'human');
+    }
+    finalizePlayerTurn();
+  } else {
+    // Targeting opponent: this is hostile, check AI Undo!
+    if (evaluateAiUndoChoice(card)) {
+      finalizePlayerTurn();
+      return;
+    }
+
+    if (G.aiStack.length > 0) {
+      const trashed = G.aiStack.pop();
+      G.discard.push(trashed);
+      playSound('discard');
+      addLog(`🔌 <b>Reboot!</b> You power-cycled Cyber-Bot's stack and vaporized <b>${trashed.name}</b> (${trashed.badge})!`, 'human');
+      updateAiPill(`"You targeted my stack with Reboot and purged my <b>${trashed.name}</b>!"`, 'attention', 'CYBER-BOT:');
+    } else {
+      addLog(`🔌 You rebooted Cyber-Bot's stack, but it was already empty.`, 'human');
+    }
+    finalizePlayerTurn();
+  }
+}
+
 function openCopyPasteModal(cardIndex) {
   const cpCard = G.playerHand.splice(cardIndex, 1)[0];
   G.discard.push(cpCard);
