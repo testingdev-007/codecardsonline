@@ -733,7 +733,7 @@
     </div>
     <div class="splash-sub">The Tabletop Cyber Duel • 31 CS Concepts</div>
     <p class="splash-desc">
-      Assemble an optimized software codebase, sabotage your opponent with glitches, and counter hostile attacks with <b>Ctrl + Z</b>. Designed for classrooms, students, and adult beginners with <b>zero coding experience</b>!
+      Assemble an optimized software codebase, sabotage your opponent with glitches, and counter hostile attacks with <b>Undo!</b>. Designed for classrooms, students, and adult beginners with <b>zero coding experience</b>!
     </p>
 
     <div class="splash-features-grid">
@@ -747,7 +747,7 @@
       </div>
       <div class="splash-feat-item">
         <b><span>🛡️</span> Tactical Reaction (Undo!)</b>
-        Hold <i>Ctrl + Z</i> to decide whether to cancel an incoming attack or save it.
+        Hold an <i>Undo!</i> card to decide whether to cancel an incoming attack or save it.
       </div>
       <div class="splash-feat-item">
         <b><span>⚡</span> Sudden-Death Victory</b>
@@ -942,11 +942,11 @@
       </p>
       <div id="undoPromptCardPreview" style="margin:4px 0;"></div>
       <p style="font-size:0.78rem; color:var(--text-muted);">
-        You hold <b>Undo! (Ctrl + Z)</b> in your Hand. Would you like to use it now to cancel and discard this attack, or save your Undo for later?
+        You hold an <b>Undo!</b> card in your Hand. Would you like to use it now to cancel and discard this attack, or save your Undo for later?
       </p>
       <div style="display:flex; gap:10px; width:100%; justify-content:center; margin-top:4px;">
         <button class="btn btn-danger" style="padding:8px 16px; font-size:0.85rem;" onclick="playerDecideUndo(true)">
-          🛡️ Use Undo! (Ctrl + Z)
+          🛡️ Play Undo! Card
         </button>
         <button class="btn" style="padding:8px 16px; font-size:0.85rem;" onclick="playerDecideUndo(false)">
           Let It Pass (Save Undo)
@@ -1025,7 +1025,7 @@
 
     <div class="modal-section">
       <h4>4. Strategic Reactions (Undo!)</h4>
-      <p>Holding an <b>Undo! (Ctrl + Z)</b> prompts you with a choice whenever the AI attacks you: cancel it or save it!</p>
+      <p>Holding an <b>Undo!</b> card prompts you with a choice whenever the AI attacks you: cancel it or save it!</p>
     </div>
 
     <button class="btn btn-primary" onclick="closeModals()">Got It — Let's Code!</button>
@@ -1050,7 +1050,7 @@
     </div>
     <div class="modal-section">
       <h4>⚡ Commands & ★ Game-Changers</h4>
-      <p><b>Undo! (Ctrl+Z):</b> Instant interrupt.<br>
+      <p><b>Undo!:</b> Instant interrupt.<br>
       <b>It's a Feature, Not a Bug!:</b> Glitches become positive points!<br>
       <b>Overclock!:</b> Doubles your code score!</p>
     </div>
@@ -1190,7 +1190,7 @@ const CARD_DB = [
   { id: 'crash', name: 'Total Crash', type: 'glitch', val: -4, count: 2, pill: 'Play on Any Stack', badge: '-4 GLITCH', icon: '💥', concept: 'Fatal unhandled breakdown forcefully closing app.', flavor: 'Everything went black. Hope you hit save recently!' },
 
   // Commands (16 cards)
-  { id: 'undo', name: 'Undo! (Ctrl+Z)', type: 'reaction', val: 0, count: 4, pill: 'Play Anytime', badge: '⚡ REACTION', icon: '🛡️', concept: 'Lifesaver command cancelling the last hostile play.', flavor: 'The greatest keyboard shortcut ever invented.' },
+  { id: 'undo', name: 'Undo!', type: 'reaction', val: 0, count: 4, pill: 'Play Anytime', badge: '⚡ REACTION', icon: '🛡️', concept: 'Lifesaver command cancelling the last hostile play.', flavor: 'The greatest keyboard shortcut ever invented.' },
   { id: 'copy_paste', name: 'Copy & Paste', type: 'action', val: 0, count: 3, pill: 'Play on Your Turn', badge: '⚡ ACTION', icon: '📋', concept: 'YOU choose 1 Code Card (+) from opponent stack into yours.', flavor: 'Why write code from scratch when someone made it?' },
   { id: 'search_web', name: 'Search the Web', type: 'action', val: 0, count: 3, pill: 'Play on Your Turn', badge: '⚡ ACTION', icon: '🌐', concept: 'Search Discard Pile and retrieve any 1 card to Hand.', flavor: 'A developer from eight years ago already solved this.' },
   { id: 'brainstorm', name: 'Team Brainstorm', type: 'action', val: 0, count: 3, pill: 'Play on Your Turn', badge: '⚡ ACTION', icon: '🤝', concept: 'Each player secretly chooses 1 card from hand to exchange.', flavor: 'Fresh eyes catch what compiler missed. Rotate!' },
@@ -1283,7 +1283,7 @@ const ARENA_TOUR_STEPS = [
     targetId: 'aiChatPill',
     parentRig: null,
     title: "5. Dedicated AI Telemetry & Reactive Pill",
-    desc: "This status capsule explains what Cyber-Bot is doing in real time. It glows <b>amber</b> when thinking, <b>cyan</b> on your turn, and pulses <b>intense red</b> when you need to decide whether to use <i>Undo! (Ctrl + Z)</i>!",
+    desc: "This status capsule explains what Cyber-Bot is doing in real time. It glows <b>amber</b> when thinking, <b>cyan</b> on your turn, and pulses <b>intense red</b> when you need to decide whether to play an <i>Undo!</i> card!",
     pillText: '"I provide live tactical commentary here and alert you when attacks strike!"'
   }
 ];
@@ -1964,9 +1964,9 @@ function evaluateAiUndoChoice(hostileCard) {
       const undoCard = G.aiHand.splice(undoIdx, 1)[0];
       G.discard.push(undoCard);
       playSound('undo');
-      flashBanner("⚡ CYBER-BOT PLAYED UNDO! (Ctrl + Z)");
-      addLog(`⚡ <b>CYBER-BOT INTERRUPT!</b> Cyber-Bot deployed <b>Undo! (Ctrl + Z)</b> to cancel your ${hostileCard.name}!`, 'undo');
-      updateAiPill(`"Access Denied! I used <b>Undo! (Ctrl + Z)</b> to vaporize your ${hostileCard.name}!"`, 'attention', 'CYBER-BOT:');
+      flashBanner("⚡ CYBER-BOT PLAYED UNDO!");
+      addLog(`⚡ <b>CYBER-BOT INTERRUPT!</b> Cyber-Bot played <b>Undo!</b> to cancel your ${hostileCard.name}!`, 'undo');
+      updateAiPill(`"Access Denied! I played <b>Undo!</b> to vaporize your ${hostileCard.name}!"`, 'attention', 'CYBER-BOT:');
       return true;
     } else {
       addLog(`<i>Cyber-Bot decides to hold onto its resources and let your ${hostileCard.name} resolve.</i>`, 'ai');
@@ -2226,9 +2226,9 @@ function playerDecideUndo(useUndo) {
       G.discard.push(undoCard);
       G.discard.push(chosen);
       playSound('undo');
-      flashBanner("🛡️ YOUR UNDO! (Ctrl + Z) CANCELLED CYBER-BOT!");
-      addLog(`🛡️ <b>REACTION INTERRUPT!</b> You chose to play <b>Undo! (Ctrl + Z)</b> to cancel Cyber-Bot's ${chosen.name}!`, 'undo');
-      updateAiPill(`"You countered with <b>Undo! (Ctrl + Z)</b>! My ${chosen.name} was rejected into Discard."`, 'action', 'CYBER-BOT:');
+      flashBanner("🛡️ YOUR UNDO! CANCELLED CYBER-BOT!");
+      addLog(`🛡️ <b>REACTION INTERRUPT!</b> You chose to play <b>Undo!</b> to cancel Cyber-Bot's ${chosen.name}!`, 'undo');
+      updateAiPill(`"You countered with <b>Undo!</b>! My ${chosen.name} was rejected into Discard."`, 'action', 'CYBER-BOT:');
       endAiTurn();
       return;
     }
@@ -2366,7 +2366,7 @@ const WALKTHROUGH = [
   },
   {
     title: "4. Strategic Reactions: The Undo Decision Prompt",
-    text: "Holding an <b>Undo! (Ctrl + Z)</b> pauses the action when Cyber-Bot attacks. You can choose to spend your Undo now or save it for later. Cyber-Bot also conserves its Undos smartly!"
+    text: "Holding an <b>Undo!</b> card pauses the action when Cyber-Bot attacks. You can choose to spend your Undo now or save it for later. Cyber-Bot also conserves its Undos smartly!"
   },
   {
     title: "5. Always-Inspectable Discard Archive",
